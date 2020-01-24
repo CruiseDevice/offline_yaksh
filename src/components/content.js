@@ -30,7 +30,7 @@ const Content = Vue.component('Content', {
                 </div>
               </div>
               <input type="file" v-if="question.type=='upload'" ref="file" @change="handleFileUpload()" id="file" name="">
-
+              
               <button class="btn btn-success">Submit</button>
               <button class="btn btn-primary">Attempt Later</button>
             </form>

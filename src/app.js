@@ -28,6 +28,7 @@ const store = new Vuex.Store({
     result: [],
     answer: [],
     question: JSON.parse(localStorage.getItem('question')) || undefined,
+    file: ''
   },
   mutations: {
     UPDATE_COURSE (state, payload) {
@@ -51,7 +52,6 @@ const store = new Vuex.Store({
           return ans != payload.id
       })
     },
-
     UPDATE_FILE (state, payload) {
       state.file = payload
     },
@@ -123,7 +123,7 @@ new Vue({
     <nav class="navbar bg-dark navbar-dark">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="index.html">
             <img src="@/../static/images/yaksh_banner.png" alt="YAKSH"/>
           </a>
         </div>
