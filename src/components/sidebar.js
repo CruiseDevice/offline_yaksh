@@ -35,7 +35,6 @@ const Sidebar = Vue.component('Sidebar', {
         }
       })
       .then((response) => {
-        console.log(response)
         this.$store.commit('UPDATE_SELECTED_QUESTION', response)
       })
     }

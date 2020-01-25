@@ -25,7 +25,7 @@ var Quiz = Vue.component('Quiz', {
     }
   },
   created () {
-    
+    // console.log(this.gettoken)
   },
   computed: {
     ...Vuex.mapGetters([

@@ -21,7 +21,7 @@ const Content = Vue.component('Content', {
               </div>
               <div v-if="question.type=='mcq'">
                 <div v-for="testcases in question.test_cases" :key="testcases.id">
-                    <input type="radio" ref="testcases.id"><div v-html="testcases.options"></div>
+                    <input type="radio" v-model="answer" name="testcases.options" :value="testcases.options"><div v-html="testcases.options"></div>
                 </div>
               </div>
               <div v-if="question.type=='mcc'">
@@ -35,19 +35,27 @@ const Content = Vue.component('Content', {
               <button class="btn btn-primary">Attempt Later</button>
             </form>
           </div>
+          <Error :result="result"/>
         </div>
       </div>
     </div>
   `,
   computed: {
     ...Vuex.mapGetters([
-      'question'
-    ])
+      'question',
+      'answer',
+      'result'
+    ]),
+    answer: {
+      get () {
+        this.$store.state.answer
+      },
+      set (value) {
+        this.$store.commit("SET_ANSWER", value)
+      }
+    }
   },
   methods: {
-    ...Vuex.mapActions([
-      'submitForm',
-    ]),
     updateCheckedAnswers (e) {
       e.preventDefault()
       this.$store.dispatch('updateCheckedAnswers', e.target)
@@ -56,5 +64,15 @@ const Content = Vue.component('Content', {
       const file = this.$refs.file.files[0];
       this.$store.commit('UPDATE_FILE', file)
     },
+    submitForm(e) {
+      e.preventDefault()
+      if(this.question.type === 'mcc' || this.question.type === 'mcq') {
+        const answer = this.answer
+      } else {
+        const answer = this.$refs.answer.value
+        this.$store.commit('SET_ANSWER', answer)
+      }
+      this.$store.dispatch('submitAnswer')
+    }
   }
 })

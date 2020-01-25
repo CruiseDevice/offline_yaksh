@@ -55,12 +55,18 @@ const store = new Vuex.Store({
     UPDATE_FILE (state, payload) {
       state.file = payload
     },
-
+    UPDATE_RESPONSE_RESULT (state, payload) {
+      state.result = payload
+    },
+    SET_ANSWER(state, payload) {
+      state.answer = payload
+    }
   },
   actions: {
     getCourse ({commit}) {
       commit('UPDATE_COURSE', courseData)
     },
+
     login (state, payload) {
       const username = payload["username"]
       const password = payload["password"]
@@ -98,12 +104,48 @@ const store = new Vuex.Store({
       }
     },
 
+    async submitAnswer (state) {
+      const answerPaperId = state.state.questions.id
+      const questionId = state.state.question.id
+      const answer = state.state.answer
+      axios({
+        method: 'POST',
+        url:`http://localhost:8000/api/validate/${answerPaperId}/${questionId}/`,
+        headers: {
+          Authorization: 'Token ' + state.state.TOKEN
+        },
+        data: {
+          answer: answer
+        },
+        timeout: 2500
+      })
+      .then((response) => {
+        if(this.state.question.type === 'code') {
+          if(response.data.status === 'running') {
+            axios({
+              method: 'GET',
+              url: `http://localhost:8000/api/validate/${response.data.uid}/`,
+              headers: {
+                Authorization: 'Token ' + state.state.TOKEN
+              } 
+            })
+            .then((response) => {
+              const result = JSON.parse(response.data.result)
+              state.commit('UPDATE_RESPONSE_RESULT', result)
+            })
+          }
+        }
+      })
+    }
   },
+
   getters: {
     course_data: state => state.courseData,
     getQuestions: state => state.questions,
     gettoken: state => state.TOKEN,
-    question: state => state.question
+    question: state => state.question,
+    answer: state => state.answer,
+    result: state => state.result
   }
 })
 
@@ -113,11 +155,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  // data () {
-  //   return {
-  //     data: courseData
-  //   }
-  // },
   template : `
   <div>
     <nav class="navbar bg-dark navbar-dark">
@@ -132,39 +169,4 @@ new Vue({
     <router-view/>
   </div>
   `,
-  created () {
-    // this.getCourse()
-  },
-  methods: {
-  }
 })
-
-
-// const data = [
-//   {
-//     "id": 868,
-//     "learning_unit": [
-//       {
-//         "id": 45,
-//         "name": "Unit 1",
-//         "desc": "Description"
-//       }
-//     ]
-//   },
-//   {
-//     "id": 128,
-//     "learning_unit": [
-//       {
-//         "id": 145,
-//         "name": "Unit 1",
-//         "desc": "Description"
-//       }
-//     ]
-//   },
-//   ]
-  
-  
-// const result = data.filter((data) => {
-//   return data["id"] === 868
-// })
-// console.log(result)
