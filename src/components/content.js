@@ -38,13 +38,41 @@ const Content = Vue.component('Content', {
           <Error :result="result"/>
         </div>
       </div>
+      <div id="content">
+        <div class="card">
+          <div v-if="module">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-md-8">
+                  {{module.name}}
+                </div>
+              </div>
+            </div>
+            <div class="card-body" v-html="module.description"></div>
+          </div>
+          <div v-if="lesson">
+            <div class="card-header">
+              <h4>{{lesson.name}}</h4>
+            </div>
+            <div class="card-body">
+              <div v-html="lesson.description"></div>
+            </div>
+          </div>
+          <div v-if="quiz">
+            {{quiz}}
+          </div>
+        </div>
+      </div>
     </div>
   `,
   computed: {
     ...Vuex.mapGetters([
       'question',
       'answer',
-      'result'
+      'result',
+      'module',
+      'lesson',
+      'quiz'
     ]),
     answer: {
       get () {

@@ -27,8 +27,11 @@ const store = new Vuex.Store({
     TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
     result: [],
     answer: [],
-    question: JSON.parse(localStorage.getItem('question')) || undefined,
-    file: ''
+    question: undefined,
+    module: undefined,
+    file: '',
+    lesson: undefined,
+    quiz: undefined
   },
   mutations: {
     UPDATE_COURSE (state, payload) {
@@ -60,6 +63,15 @@ const store = new Vuex.Store({
     },
     SET_ANSWER(state, payload) {
       state.answer = payload
+    },
+    UPDATE_MODULE(state, payload) {
+      state.module = payload
+    },
+    UPDATE_LESSON(state, payload) {
+      state.lesson = payload
+    },
+    UPDATE_QUIZ(state, payload) {
+      state.quiz = payload
     }
   },
   actions: {
@@ -95,7 +107,30 @@ const store = new Vuex.Store({
       commit('UPDATE_QUESTION', question)
       localStorage.setItem('question', JSON.stringify(question))
     },
+
+    showModule({commit}, module) {
+      console.log(module)
+      this.state.module = undefined
+      this.state.lesson = undefined
+      this.state.quiz = undefined
+      commit('UPDATE_MODULE', module)
+    },
     
+    showLesson({commit}, lesson) {
+      console.log(lesson)
+      this.state.lesson = undefined
+      this.state.module = undefined
+      this.state.quiz = undefined
+      commit('UPDATE_LESSON', lesson)
+    },
+
+    showQuiz({commit}, quiz) {
+      console.log(quiz)
+      this.state.lesson = undefined
+      this.state.module = undefined
+      commit('UPDATE_QUIZ', quiz)
+    },
+
     updateCheckedAnswers ({commit}, choices) {
       if(choices.checked) {
         commit('UPDATE_CHECKED_ANSWERS', choices.id)
@@ -145,7 +180,10 @@ const store = new Vuex.Store({
     gettoken: state => state.TOKEN,
     question: state => state.question,
     answer: state => state.answer,
-    result: state => state.result
+    result: state => state.result,
+    module: state => state.module,
+    lesson: state => state.lesson,
+    quiz: state => state.quiz
   }
 })
 

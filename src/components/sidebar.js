@@ -3,12 +3,15 @@ const Sidebar = Vue.component('Sidebar', {
     <div>
       <nav id="sidebar">
         <div class="sidebar-header">
-          <h3>Course Name</h3>
+          <h3>{{course_data.name}}</h3>
         </div>
         <div v-if="getQuestions">
           <QuestionNumbers
             :questions="getQuestions"
           />
+        </div>
+        <div>
+          <ModuleList :modules="course_data"/>
         </div>
       </nav>
     </div>
@@ -16,13 +19,16 @@ const Sidebar = Vue.component('Sidebar', {
   computed: {
     ...Vuex.mapGetters([
       'getQuestions',
-      'gettoken'
+      'gettoken',
+      'course_data'
     ])
   },
   created () {
-    this.courseId = parseInt(this.$route.params.course_id)
-    this.quizId = parseInt(this.$route.params.quiz_id)
-    this.fetchQuestions(this.courseId, this.quizId)
+    const courseId = parseInt(this.$route.params.course_id)
+    const quizId = parseInt(this.$route.params.quiz_id)
+    if (courseId && quizId){
+      this.fetchQuestions(courseId, quizId)
+    }
   },
   methods: {
     fetchQuestions (course_id, quiz_id) {
