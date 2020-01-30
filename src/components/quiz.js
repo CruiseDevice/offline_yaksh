@@ -14,8 +14,6 @@ var Quiz = Vue.component('Quiz', {
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
-     {{courseId}}
-     {{quizId}}
     </div>
   `,
   data () {

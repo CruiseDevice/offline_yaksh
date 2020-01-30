@@ -28,13 +28,13 @@ a, a:hover, a:focus {
 #sidebar {
   min-width: 250px;
   max-width: 250px;
-  min-height: 100vh;
+  min-height: 115vh;
   height: 100%;
   background: #7386D5;
   color: #fff;
   transition: all 0.3s;
   max-height: calc(100vh - 9rem);
-      overflow-y: auto;
+  overflow-y: auto;
 }
 
 #sidebar ul.components {
@@ -64,7 +64,7 @@ a, a:hover, a:focus {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #919ACC;
 }
 
 #sidebar.active {
@@ -90,6 +90,10 @@ a[data-toggle="collapse"] {
   #sidebar.active {
       margin-left: 0;
   }
+}
+
+#sidebar_course_title {
+  margin: 1em 1em 1em 1em;
 }
 
 #content {
@@ -134,3 +138,4 @@ a[data-toggle="collapse"] {
   margin-bottom: 10px;
   margin-top: 1em;
 }
+

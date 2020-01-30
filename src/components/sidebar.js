@@ -2,8 +2,8 @@ const Sidebar = Vue.component('Sidebar', {
   template: `
     <div>
       <nav id="sidebar">
-        <div class="sidebar-header">
-          <h3>{{course_data.name}}</h3>
+        <div class="sidebar-header" id="sidebar_course_title">
+          <center><h3>{{course_data.name}}</h3></center>
         </div>
         <div v-if="getQuestions">
           <QuestionNumbers
