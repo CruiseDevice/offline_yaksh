@@ -9,7 +9,7 @@ var ModuleList = Vue.component('ModuleList', {
               <div v-for="(unit, index) in module.learning_unit" :key="unit.id">
                 <li>
                   <div v-if="unit.quiz">
-                    <a @click="showQuiz(unit.quiz)">{{unit.quiz.description}}</a>
+                    <router-link v-on:click.native="showQuiz(unit.quiz)" :to="'/'+courseId+'/'+unit.id+'/'+unit.quiz.id" target="_blank">{{unit.quiz.description}}</router-link>
                   </div>
                   <div v-if="unit.lesson">
                     <a @click="showLesson(unit.lesson)">{{unit.lesson.name}}</a>
@@ -25,10 +25,12 @@ var ModuleList = Vue.component('ModuleList', {
   props: ['modules'],
   data () {
     return {
+      courseId: undefined
     }
   },
   created () {
-
+    this.courseId = parseInt(this.$route.params.course_id)
+    localStorage.removeItem("quiz")
   },
   methods: {
     ...Vuex.mapActions([

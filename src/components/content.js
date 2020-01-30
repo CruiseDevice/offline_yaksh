@@ -50,16 +50,13 @@ const Content = Vue.component('Content', {
             </div>
             <div class="card-body" v-html="module.description"></div>
           </div>
-          <div v-if="lesson">
+          <div>
             <div class="card-header">
               <h4>{{lesson.name}}</h4>
             </div>
             <div class="card-body">
               <div v-html="lesson.description"></div>
             </div>
-          </div>
-          <div v-if="quiz">
-            {{quiz}}
           </div>
         </div>
       </div>

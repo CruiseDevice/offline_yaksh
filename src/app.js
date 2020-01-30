@@ -13,6 +13,11 @@ const routes = [
     path: '/:course_id/:quiz_id',
     component: Quiz,
     name: 'QuizModule'
+  },
+  {
+    path: '/:course_id/:unit_id/:quiz_id',
+    component: QuizInstructions,
+    name: 'QuizInstructions'
   }
 ]
 
@@ -31,7 +36,7 @@ const store = new Vuex.Store({
     module: undefined,
     file: '',
     lesson: undefined,
-    quiz: undefined
+    quiz: JSON.parse(localStorage.getItem('quiz')) || undefined
   },
   mutations: {
     UPDATE_COURSE (state, payload) {
@@ -128,6 +133,7 @@ const store = new Vuex.Store({
       console.log(quiz)
       this.state.lesson = undefined
       this.state.module = undefined
+      localStorage.setItem('quiz', JSON.stringify(quiz))
       commit('UPDATE_QUIZ', quiz)
     },
 
