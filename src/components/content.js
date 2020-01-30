@@ -1,7 +1,8 @@
 const Content = Vue.component('Content', {
   template: `
-    <div>
-      <div id="content" v-if="question">
+    <div id="content">
+      <ToggleButton />
+      <div v-if="question">
         <div class="card" id="card">
           <div class="card-header">
             {{question.id}}. <h5><strong>{{question.summary}}</strong></h5>
@@ -50,7 +51,7 @@ const Content = Vue.component('Content', {
             </div>
             <div class="card-body" v-html="module.description"></div>
           </div>
-          <div>
+          <div v-if="lesson">
             <div class="card-header">
               <h4>{{lesson.name}}</h4>
             </div>

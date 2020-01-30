@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="static/css/custom.css">
@@ -23,6 +22,7 @@
   </body>
   <script type="text/javascript" src="course_data.js"></script>
   <script type="text/javascript" src="quizzes.js"></script>
+  <script type="text/javascript" src="src/components/togglebutton.js"></script>
   <script type="text/javascript" src="src/components/quizinstructions.js"></script>
   <script type="text/javascript" src="src/components/module.js"></script>
   <script type="text/javascript" src="src/components/module_list.js"></script>
@@ -33,4 +33,11 @@
   <script type="text/javascript" src="src/components/questionnumbers.js"></script>
   <script type="text/javascript" src="src/components/error.js"></script>
   <script type="text/javascript" src="src/app.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').toggleClass('active');
+      });
+    });
+  </script>
 </html>
