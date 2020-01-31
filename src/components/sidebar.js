@@ -1,7 +1,7 @@
 const Sidebar = Vue.component('Sidebar', {
   template: `
     <div>
-      <nav id="sidebar">
+      <nav id="sidebar" :class="{active: active}">
         <div class="sidebar-header" id="sidebar_course_title">
           <center><h3>{{course_data.name}}</h3></center>
         </div>
@@ -10,7 +10,7 @@ const Sidebar = Vue.component('Sidebar', {
             :questions="getQuestions"
           />
         </div>
-        <div>
+        <div v-if="getQuestions.length === 0">
           <ModuleList :modules="course_data"/>
         </div>
       </nav>
@@ -20,7 +20,8 @@ const Sidebar = Vue.component('Sidebar', {
     ...Vuex.mapGetters([
       'getQuestions',
       'gettoken',
-      'course_data'
+      'course_data',
+      'active'
     ])
   },
   created () {

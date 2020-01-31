@@ -9,7 +9,7 @@ const QuizInstructions = Vue.component('QuizInstructions', {
             </div>
             <div class="card-body">
               <div class="alert alert-info ">
-              You can attempt this Quiz at any time between {{quiz.start_date_time}} Asia/Kolkata and {{quiz.end_date_time}} Asia/Kolkata
+              You can attempt this Quiz at any time between <strong>{{quiz.start_date_time}}</strong> Asia/Kolkata and <strong>{{quiz.end_date_time}}</strong> Asia/Kolkata
               You are not allowed to attempt the Quiz before or after this duration
               </div>
               <div v-html="quiz.instructions"></div>
@@ -27,7 +27,7 @@ const QuizInstructions = Vue.component('QuizInstructions', {
   },
   computed: {
     ...Vuex.mapGetters([
-      'quiz'
+      'quiz',
     ])
   },
   created () {

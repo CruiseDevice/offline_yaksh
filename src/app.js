@@ -35,6 +35,7 @@ const store = new Vuex.Store({
     question: undefined,
     module: undefined,
     file: '',
+    active: '',
     lesson: undefined,
     quiz: JSON.parse(localStorage.getItem('quiz')) || undefined
   },
@@ -189,7 +190,8 @@ const store = new Vuex.Store({
     result: state => state.result,
     module: state => state.module,
     lesson: state => state.lesson,
-    quiz: state => state.quiz
+    quiz: state => state.quiz,
+    active: state => state.active
   }
 })
 

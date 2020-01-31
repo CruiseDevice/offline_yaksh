@@ -3,7 +3,7 @@ const Content = Vue.component('Content', {
     <div id="content">
       <ToggleButton />
       <div v-if="question">
-        <div class="card" id="card">
+        <div class="card">
           <div class="card-header">
             {{question.id}}. <h5><strong>{{question.summary}}</strong></h5>
             <strong>{{question.type}}</strong>              
@@ -70,7 +70,6 @@ const Content = Vue.component('Content', {
       'result',
       'module',
       'lesson',
-      'quiz'
     ]),
     answer: {
       get () {
@@ -99,6 +98,6 @@ const Content = Vue.component('Content', {
         this.$store.commit('SET_ANSWER', answer)
       }
       this.$store.dispatch('submitAnswer')
-    }
+    },
   }
 })
