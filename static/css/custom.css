@@ -131,6 +131,10 @@ a[data-toggle="collapse"] {
   margin-bottom: 25px;
 }
 
+.q_num_btn {
+  width:35px;
+}
+
 #card {
   width: 48rem;
   margin: 0 auto;

@@ -47,7 +47,7 @@ const store = new Vuex.Store({
       state.TOKEN = payload
     },
     UPDATE_SELECTED_QUESTION(state, payload) {
-      state.questions = payload.data;
+      state.questions = payload;
       state.response = payload;
     },
     UPDATE_QUESTION (state, payload) {
@@ -115,7 +115,6 @@ const store = new Vuex.Store({
     },
 
     showModule({commit}, module) {
-      console.log(module)
       this.state.module = undefined
       this.state.lesson = undefined
       this.state.quiz = undefined
@@ -123,7 +122,6 @@ const store = new Vuex.Store({
     },
     
     showLesson({commit}, lesson) {
-      console.log(lesson)
       this.state.lesson = undefined
       this.state.module = undefined
       this.state.quiz = undefined
@@ -131,7 +129,6 @@ const store = new Vuex.Store({
     },
 
     showQuiz({commit}, quiz) {
-      console.log(quiz)
       this.state.lesson = undefined
       this.state.module = undefined
       localStorage.setItem('quiz', JSON.stringify(quiz))

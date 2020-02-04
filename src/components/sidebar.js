@@ -42,7 +42,10 @@ const Sidebar = Vue.component('Sidebar', {
         }
       })
       .then((response) => {
-        this.$store.commit('UPDATE_SELECTED_QUESTION', response)
+        this.$store.commit('UPDATE_SELECTED_QUESTION', response.data.answerpaper)
+      })
+      .catch((error) => {
+        console.log(error)
       })
     }
   }
