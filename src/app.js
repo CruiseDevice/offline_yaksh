@@ -37,7 +37,8 @@ const store = new Vuex.Store({
     file: '',
     active: '',
     lesson: undefined,
-    quiz: JSON.parse(localStorage.getItem('quiz')) || undefined
+    quiz: JSON.parse(localStorage.getItem('quiz')) || undefined,
+    time_left: undefined
   },
   mutations: {
     UPDATE_COURSE (state, payload) {
@@ -49,6 +50,9 @@ const store = new Vuex.Store({
     UPDATE_SELECTED_QUESTION(state, payload) {
       state.questions = payload;
       state.response = payload;
+    },
+    UPDATE_QUIZ_TIMER (state, payload) {
+      state.time_left = payload
     },
     UPDATE_QUESTION (state, payload) {
       state.question = payload
@@ -206,6 +210,9 @@ new Vue({
           <a class="navbar-brand" href="index.html">
             <img src="@/../static/images/yaksh_banner.png" alt="YAKSH"/>
           </a>
+        </div>
+        <div class="navbar-nav ml-auto">
+          <Time Left placeholder>
         </div>
       </div>
     </nav>

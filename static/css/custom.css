@@ -1,3 +1,8 @@
+.navbar-nav {
+  flex-direction: row;
+  padding-right: 15em
+}
+
 .wrapper {
   display: flex;
   width: 100%;
