@@ -10,7 +10,7 @@ const Sidebar = Vue.component('Sidebar', {
             :questions="getQuestions"
           />
         </div>
-        <div v-if="getQuestions === undefined">
+        <div v-if="getQuestions.length === 0">
           <ModuleList :modules="course_data"/>
         </div>
       </nav>

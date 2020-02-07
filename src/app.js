@@ -40,50 +40,69 @@ const store = new Vuex.Store({
     quiz: JSON.parse(localStorage.getItem('quiz')) || undefined,
     time_left: undefined
   },
+
   mutations: {
     UPDATE_COURSE (state, payload) {
       state.courseData = payload
     },
+
     UPDATE_TOKEN (state, payload) {
       state.TOKEN = payload
     },
+
     UPDATE_SELECTED_QUESTION(state, payload) {
-      state.questions = payload;
-      state.response = payload;
+      if(payload) {
+        state.questions = payload;
+        state.response = payload;
+      } else {
+        state.questions = []
+        state.response = []
+      }
     },
+
     UPDATE_QUIZ_TIMER (state, payload) {
       state.time_left = payload
     },
+
     UPDATE_QUESTION (state, payload) {
       state.question = payload
     },
+
     UPDATE_CHECKED_ANSWERS (state, payload) {
       state.answer.push(payload)
     },
+
     REMOVE_CHECKED_ANSWERS (state, payload) {
       state.answer = state.answer.filter(ans => {
           return ans != payload.id
       })
     },
+
     UPDATE_FILE (state, payload) {
       state.file = payload
     },
+
     UPDATE_RESPONSE_RESULT (state, payload) {
       state.result = payload
     },
+
     SET_ANSWER(state, payload) {
       state.answer = payload
     },
+
     UPDATE_MODULE(state, payload) {
       state.module = payload
     },
+
     UPDATE_LESSON(state, payload) {
       state.lesson = payload
     },
+
     UPDATE_QUIZ(state, payload) {
       state.quiz = payload
     }
   },
+
   actions: {
     getCourse ({commit}) {
       commit('UPDATE_COURSE', courseData)
@@ -192,10 +211,10 @@ const store = new Vuex.Store({
     module: state => state.module,
     lesson: state => state.lesson,
     quiz: state => state.quiz,
-    active: state => state.active
+    active: state => state.active,
+    time_left: state => state.time_left
   }
 })
-
 
 new Vue({
   name: 'App',
@@ -211,12 +230,34 @@ new Vue({
             <img src="@/../static/images/yaksh_banner.png" alt="YAKSH"/>
           </a>
         </div>
-        <div class="navbar-nav ml-auto">
-          <Time Left placeholder>
+        <div class="navbar-nav ml-auto" v-if="time_left">
+           {{hour}} : {{min}} : {{sec}}
         </div>
       </div>
     </nav>
     <router-view/>
   </div>
   `,
+  data () {
+    return {
+      now: new Date()
+    }
+  },
+  computed: {
+    ...Vuex.mapGetters([
+        'time_left'
+      ]),
+    hour () {
+      return Math.floor(this.time_left / 3600)
+    },
+    min(){
+      return Math.floor(this.time_left % 3600 / 60);
+    },
+    sec(){
+      return Math.floor(this.time_left % 3600 % 60);
+    }
+  },
+  watch: {
+
+  }
 })
