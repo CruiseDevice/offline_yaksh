@@ -44,7 +44,7 @@ const Sidebar = Vue.component('Sidebar', {
       .then((response) => {
         console.log(response)
         this.$store.commit('UPDATE_SELECTED_QUESTION', response.data.answerpaper)
-        this.$store.commit('UPDATE_QUIZ_TIMER', response.data.time_left)
+        this.$store.commit('SET_QUIZ_TIMER', response.data.time_left)
       })
       .catch((error) => {
         console.log(error)

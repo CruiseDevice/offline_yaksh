@@ -26,19 +26,19 @@ const router = new VueRouter({routes})
 // Vuex Store
 const store = new Vuex.Store({
   state: {
-    courseData: data[0],
-    questions: [],
-    response: [],
-    TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
-    result: [],
-    answer: [],
-    question: undefined,
-    module: undefined,
     file: '',
     active: '',
+    answer: [],
+    result: [],
+    response: [],
+    questions: [],
+    module: undefined,
     lesson: undefined,
+    courseData: data[0],
+    question: undefined,
+    time_left: undefined,
     quiz: JSON.parse(localStorage.getItem('quiz')) || undefined,
-    time_left: undefined
+    TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
   },
 
   mutations: {
@@ -60,10 +60,14 @@ const store = new Vuex.Store({
       }
     },
 
-    UPDATE_QUIZ_TIMER (state, payload) {
+    SET_QUIZ_TIMER (state, payload) {
       state.time_left = payload
     },
-
+    
+    UPDATE_QUIZ_TIMER(state, payload) {
+      state.time_left = payload
+    },
+    
     UPDATE_QUESTION (state, payload) {
       state.question = payload
     },
@@ -230,34 +234,10 @@ new Vue({
             <img src="@/../static/images/yaksh_banner.png" alt="YAKSH"/>
           </a>
         </div>
-        <div class="navbar-nav ml-auto" v-if="time_left">
-           {{hour}} : {{min}} : {{sec}}
-        </div>
+        <Timer />
       </div>
     </nav>
     <router-view/>
   </div>
   `,
-  data () {
-    return {
-      now: new Date()
-    }
-  },
-  computed: {
-    ...Vuex.mapGetters([
-        'time_left'
-      ]),
-    hour () {
-      return Math.floor(this.time_left / 3600)
-    },
-    min(){
-      return Math.floor(this.time_left % 3600 / 60);
-    },
-    sec(){
-      return Math.floor(this.time_left % 3600 % 60);
-    }
-  },
-  watch: {
-
-  }
 })
