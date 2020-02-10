@@ -1,7 +1,7 @@
 const Timer = Vue.component('Timer', {
   template: `
     <div class="navbar-nav ml-auto" v-if="time_left">
-     {{hour}} : {{min}} : {{sec}}
+      <h4 style="color:#FFF;"><span id='timer' style="font-size:25px;">{{hour}} : {{min}} : {{sec}}</span></h4>
     </div>
   `,
   computed: {
