@@ -38,30 +38,30 @@ const Content = Vue.component('Content', {
           </div>
           <Error :result="result"/>
         </div>
-        <div class="card">
-          <div v-if="module">
-            <div class="card-header">
-              <div class="row">
-                <div class="col-md-8">
-                  {{module.name}}
-                </div>
+      </div>
+      <div class="card">
+        <div v-if="module">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-md-8">
+                {{module.name}}
               </div>
             </div>
-            <div class="card-body" v-html="module.description"></div>
           </div>
-          <div v-if="lesson">
-            <div class="card-header">
-              <h4>{{lesson.name}}</h4>
-            </div>
-            <div class="card-body">
-              <div v-html="lesson.description"></div>
-            </div>
+          <div class="card-body" v-html="module.description"></div>
+        </div>
+        <div v-if="lesson">
+          <div class="card-header">
+          </div>
+            <h4>{{lesson.name}}</h4>
+          <div class="card-body">
+            <div v-html="lesson.description"></div>
           </div>
         </div>
-        <br/>
-        <div v-if="!question">
-          <center><button class="btn btn-primary" @click.prevent="nextLesson">Next</button></center>
-        </div>
+      </div>
+      <br/>
+      <div v-if="!question">
+        <center><button class="btn btn-primary" @click.prevent="nextLesson">Next</button></center>
       </div>
     </div>
   `,

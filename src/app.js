@@ -170,6 +170,14 @@ const store = new Vuex.Store({
       }
     },
 
+    update_module({commit}, moduleId){
+      let modules = this.getters.course_data.learning_module
+      let module = modules.filter(module => {
+        return module.id == moduleId
+      })
+      commit('UPDATE_MODULE', module[0])
+    },
+
     async submitAnswer (state) {
       const answerPaperId = state.state.questions.id
       const questionId = state.state.question.id

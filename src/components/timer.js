@@ -26,10 +26,11 @@ const Timer = Vue.component('Timer', {
       immediate: true,
       handler (newVal) {
         if(newVal !== undefined){
-          if (newVal > 0) {
+          let timer = this.time_left
+          if (timer > 0) {
             setInterval(() => {
-              newVal -= 1
-              this.$store.commit('UPDATE_QUIZ_TIMER', newVal)
+              timer -= 1
+              this.$store.commit('UPDATE_QUIZ_TIMER', timer)
             }, 1000)
           } else {
             location.reload()
