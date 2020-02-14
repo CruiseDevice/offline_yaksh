@@ -5,7 +5,9 @@ const ToggleButton = Vue.component('ToggleButton', {
         <div>
             <button type="button" @click.prevent="toggleActive" id="sidebarCollapse" class="btn btn-info">
               <i class="fas fa-align-left"></i>
-              <span>Toggle Sidebar</span>
+               <div id="burger"></div>
+               <div id="burger"></div>
+               <div id="burger"></div>
             </button>
         </div>
       </nav>

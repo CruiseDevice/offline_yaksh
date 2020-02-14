@@ -1,3 +1,10 @@
+#burger {
+  width: 25px;
+  height: 2px;
+  background-color: black;
+  margin: 6px 0;
+}
+
 .navbar-nav {
   flex-direction: row;
   padding-right: 15em

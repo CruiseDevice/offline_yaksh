@@ -38,8 +38,6 @@ const Content = Vue.component('Content', {
           </div>
           <Error :result="result"/>
         </div>
-      </div>
-      <div id="content">
         <div class="card">
           <div v-if="module">
             <div class="card-header">
@@ -59,6 +57,10 @@ const Content = Vue.component('Content', {
               <div v-html="lesson.description"></div>
             </div>
           </div>
+        </div>
+        <br/>
+        <div v-if="!question">
+          <center><button class="btn btn-primary" @click.prevent="nextLesson">Next</button></center>
         </div>
       </div>
     </div>
@@ -99,5 +101,8 @@ const Content = Vue.component('Content', {
       }
       this.$store.dispatch('submitAnswer')
     },
+    nextLesson () {
+      console.log("hello")
+    }
   }
 })
