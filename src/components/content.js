@@ -65,6 +65,11 @@ const Content = Vue.component('Content', {
       </div>
     </div>
   `,
+  data () {
+    return {
+      index: -1
+    }
+  },
   computed: {
     ...Vuex.mapGetters([
       'question',
@@ -102,7 +107,19 @@ const Content = Vue.component('Content', {
       this.$store.dispatch('submitAnswer')
     },
     nextLesson () {
-      console.log("hello")
+      let modules = this.$store.getters.course_data.learning_module
+      let module = modules.filter(module => {
+        return module === this.module
+      })
+      var keys = Object.keys(modules)
+      if (this.index === -1){
+        this.index += 2
+      } else {
+        this.index += 1
+      }
+      var nextModuleKey = keys[this.index]
+      var nextModule = modules[nextModuleKey]
+      this.$store.commit('UPDATE_MODULE', nextModule)
     }
   }
 })
