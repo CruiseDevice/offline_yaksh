@@ -26,27 +26,28 @@ var ModuleList = Vue.component('ModuleList', {
   data () {
     return {
       courseId: undefined,
-      moduleId: undefined,
       unitId: undefined
     }
   },
   created () {
     this.courseId = parseInt(this.$route.params.course_id)
-    this.moduleId = parseInt(this.$route.params.module_id)
-    this.$store.dispatch('update_module', this.moduleId)
+    const moduleId = parseInt(this.$route.params.module_id)
+    this.$store.dispatch('update_module', moduleId)
+    this.$store.dispatch('activeModule', moduleId)
     localStorage.removeItem("quiz")
+  },
+  computed: {
+    ...Vuex.mapGetters([
+        'moduleId'
+      ])
   },
   methods: {
     ...Vuex.mapActions([
       'showModule',
       'showLesson',
-      'showQuiz'
+      'showQuiz',
+      'activeModule',
+      'activeUnit',
     ]),
-    activeModule (module_id) {
-      this.moduleId = module_id
-    },
-    activeUnit (unit_id) {
-      this.unitId = unit_id
-    }
   }
 })

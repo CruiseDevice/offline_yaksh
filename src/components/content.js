@@ -65,11 +65,6 @@ const Content = Vue.component('Content', {
       </div>
     </div>
   `,
-  data () {
-    return {
-      index: -1
-    }
-  },
   computed: {
     ...Vuex.mapGetters([
       'question',
@@ -77,6 +72,7 @@ const Content = Vue.component('Content', {
       'result',
       'module',
       'lesson',
+      'index'
     ]),
     answer: {
       get () {
@@ -107,19 +103,29 @@ const Content = Vue.component('Content', {
       this.$store.dispatch('submitAnswer')
     },
     nextLesson () {
+      // move this globally
       let modules = this.$store.getters.course_data.learning_module
-      let module = modules.filter(module => {
-        return module === this.module
+
+      let module = modules.filter((module, index) => {
+        if(module.id === this.module.id) {
+          this.$store.commit('UPDATE_INDEX', index)
+          return module
+        }
       })
       var keys = Object.keys(modules)
-      if (this.index === -1){
-        this.index += 2
+      if (this.index < keys.length-1) {
+        index = this.index
+        index += 1
       } else {
-        this.index += 1
+        index = 0
       }
+      this.$store.commit('UPDATE_INDEX', index)
       var nextModuleKey = keys[this.index]
       var nextModule = modules[nextModuleKey]
+      var nextModuleId = nextModule.id
       this.$store.commit('UPDATE_MODULE', nextModule)
+      this.$router.push(`${nextModuleId}`)
+      this.$store.dispatch('activeModule', nextModule.id)
     }
   }
 })

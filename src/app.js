@@ -27,12 +27,14 @@ const router = new VueRouter({routes})
 const store = new Vuex.Store({
   state: {
     file: '',
+    index: 0,
     active: '',
     answer: [],
     result: [],
     response: [],
     questions: [],
     module: undefined,
+    moduleId: undefined,
     lesson: undefined,
     courseData: data[0],
     question: undefined,
@@ -48,6 +50,10 @@ const store = new Vuex.Store({
 
     UPDATE_TOKEN (state, payload) {
       state.TOKEN = payload
+    },
+
+    UPDATE_INDEX (state, payload) {
+      state.index = payload
     },
 
     UPDATE_SELECTED_QUESTION(state, payload) {
@@ -96,6 +102,10 @@ const store = new Vuex.Store({
 
     UPDATE_MODULE(state, payload) {
       state.module = payload
+    },
+
+    UPDATE_MODULE_ID (state, payload) {
+      state.moduleId = payload
     },
 
     UPDATE_LESSON(state, payload) {
@@ -162,6 +172,14 @@ const store = new Vuex.Store({
       commit('UPDATE_QUIZ', quiz)
     },
 
+    activeModule ({commit}, module_id) {
+      commit('UPDATE_MODULE_ID', module_id)
+    },
+
+    activeUnit (unit_id) {
+      this.unitId = unit_id
+    },
+
     updateCheckedAnswers ({commit}, choices) {
       if(choices.checked) {
         commit('UPDATE_CHECKED_ANSWERS', choices.id)
@@ -224,7 +242,9 @@ const store = new Vuex.Store({
     lesson: state => state.lesson,
     quiz: state => state.quiz,
     active: state => state.active,
-    time_left: state => state.time_left
+    time_left: state => state.time_left,
+    index: state => state.index,
+    moduleId: state => state.moduleId
   }
 })
 
