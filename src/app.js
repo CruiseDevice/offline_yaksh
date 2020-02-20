@@ -28,6 +28,7 @@ const store = new Vuex.Store({
   state: {
     file: '',
     index: 0,
+    // unitIndex: 0,
     active: '',
     answer: [],
     result: [],
@@ -174,6 +175,7 @@ const store = new Vuex.Store({
 
     activeModule ({commit}, module_id) {
       commit('UPDATE_MODULE_ID', module_id)
+      router.push(`${module_id}`).catch(err=>{})
     },
 
     activeUnit (unit_id) {
@@ -244,6 +246,7 @@ const store = new Vuex.Store({
     active: state => state.active,
     time_left: state => state.time_left,
     index: state => state.index,
+    // unitIndex: state => state.unitIndex,
     moduleId: state => state.moduleId
   }
 })

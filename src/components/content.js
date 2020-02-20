@@ -61,7 +61,7 @@ const Content = Vue.component('Content', {
       </div>
       <br/>
       <div v-if="!question">
-        <center><button class="btn btn-primary" @click.prevent="nextLesson">Next</button></center>
+        <center><button class="btn btn-primary" @click.prevent="next">Next</button></center>
       </div>
     </div>
   `,
@@ -72,7 +72,8 @@ const Content = Vue.component('Content', {
       'result',
       'module',
       'lesson',
-      'index'
+      'index',
+      // 'unitIndex',
     ]),
     answer: {
       get () {
@@ -102,30 +103,47 @@ const Content = Vue.component('Content', {
       }
       this.$store.dispatch('submitAnswer')
     },
-    nextLesson () {
-      // move this globally
-      let modules = this.$store.getters.course_data.learning_module
-
-      let module = modules.filter((module, index) => {
-        if(module.id === this.module.id) {
-          this.$store.commit('UPDATE_INDEX', index)
-          return module
-        }
-      })
-      var keys = Object.keys(modules)
-      if (this.index < keys.length-1) {
+    nextModule (modules, moduleKeys) {
+      if (this.index < moduleKeys.length-1) {
         index = this.index
         index += 1
       } else {
         index = 0
       }
       this.$store.commit('UPDATE_INDEX', index)
-      var nextModuleKey = keys[this.index]
+      var nextModuleKey = moduleKeys[this.index]
       var nextModule = modules[nextModuleKey]
       var nextModuleId = nextModule.id
       this.$store.commit('UPDATE_MODULE', nextModule)
       this.$router.push(`${nextModuleId}`)
       this.$store.dispatch('activeModule', nextModule.id)
+    },
+    // nextUnit (units, unitkeys) {
+    //   if (this.unitIndex < unitkeys.length-1) {
+    //     index = this.unitIndex
+    //     index += 1
+    //   } else {
+    //     index = 0
+    //   }
+    //   this.
+    // },
+    next () {
+      let modules = this.$store.getters.course_data.learning_module
+      var moduleKeys = Object.keys(modules)
+      let unitKeys = undefined
+      let units = undefined
+      let module = modules.filter((module, index) => {
+        if(module.id === this.module.id) {
+          this.$store.commit('UPDATE_INDEX', index)
+          // if(module.learning_unit !== undefined) {
+          //   units = module.learning_unit
+          //   unitkeys = Object.keys(units)
+          //   this.nextUnit(units, unitkeys)
+          // }
+          return module
+        }
+      })
+      this.nextModule(modules, moduleKeys)
     }
   }
 })
