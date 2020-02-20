@@ -175,7 +175,9 @@ const store = new Vuex.Store({
 
     activeModule ({commit}, module_id) {
       commit('UPDATE_MODULE_ID', module_id)
-      router.push(`${module_id}`).catch(err=>{})
+      if(module_id){
+        router.push(`${module_id}`).catch(err=>{})
+      }
     },
 
     activeUnit (unit_id) {

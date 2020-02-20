@@ -13,7 +13,7 @@ const QuizInstructions = Vue.component('QuizInstructions', {
               You are not allowed to attempt the Quiz before or after this duration
               </div>
               <div v-html="quiz.instructions"></div>
-              <router-link :to="'/'+courseId+'/'+quiz.id" class="btn btn-primary">Start Quiz</router-link>
+              <router-link :to="{name: 'QuizModule', params: {course_id: courseId, quiz_id: quiz.id}}" class="btn btn-primary">Start Quiz</router-link>
             </div>
           </div>
         </div>

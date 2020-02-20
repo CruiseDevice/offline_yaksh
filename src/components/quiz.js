@@ -16,15 +16,6 @@ var Quiz = Vue.component('Quiz', {
       </div>
     </div>
   `,
-  data () {
-    return {
-      courseId: undefined,
-      quizId: undefined
-    }
-  },
-  created () {
-    // console.log(this.gettoken)
-  },
   computed: {
     ...Vuex.mapGetters([
       'gettoken'
