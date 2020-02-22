@@ -65,6 +65,10 @@ const Content = Vue.component('Content', {
       </div>
     </div>
   `,
+  created () {
+    let courseId = parseInt(this.$route.params.course_id)
+    let quizId = parseInt(this.$route.params.quiz_id)
+  },
   computed: {
     ...Vuex.mapGetters([
       'question',
@@ -72,8 +76,9 @@ const Content = Vue.component('Content', {
       'result',
       'module',
       'lesson',
-      'index',
-      // 'unitIndex',
+      'moduleIndex',
+      'moduleId',
+      'unitIndex',
     ]),
     answer: {
       get () {
@@ -103,47 +108,24 @@ const Content = Vue.component('Content', {
       }
       this.$store.dispatch('submitAnswer')
     },
-    nextModule (modules, moduleKeys) {
-      if (this.index < moduleKeys.length-1) {
-        index = this.index
-        index += 1
-      } else {
-        index = 0
-      }
-      this.$store.commit('UPDATE_INDEX', index)
-      var nextModuleKey = moduleKeys[this.index]
-      var nextModule = modules[nextModuleKey]
-      var nextModuleId = nextModule.id
-      this.$store.commit('UPDATE_MODULE', nextModule)
-      this.$router.push(`${nextModuleId}`)
-      this.$store.dispatch('activeModule', nextModule.id)
-    },
-    // nextUnit (units, unitkeys) {
-    //   if (this.unitIndex < unitkeys.length-1) {
-    //     index = this.unitIndex
-    //     index += 1
-    //   } else {
-    //     index = 0
-    //   }
-    //   this.
-    // },
+
     next () {
+      let currModule = this.module
       let modules = this.$store.getters.course_data.learning_module
-      var moduleKeys = Object.keys(modules)
-      let unitKeys = undefined
-      let units = undefined
-      let module = modules.filter((module, index) => {
-        if(module.id === this.module.id) {
-          this.$store.commit('UPDATE_INDEX', index)
-          // if(module.learning_unit !== undefined) {
-          //   units = module.learning_unit
-          //   unitkeys = Object.keys(units)
-          //   this.nextUnit(units, unitkeys)
-          // }
-          return module
-        }
-      })
-      this.nextModule(modules, moduleKeys)
+      let moduleKeys = Object.keys(modules)
+      let currModIndex = modules.findIndex(module => module.id === currModule.id)
+      if (currModIndex < moduleKeys.length - 1) {
+        currModIndex += 1
+      } else {
+        currModIndex = 0
+      }
+      this.$store.commit('UPDATE_MODULE_INDEX', currModIndex)
+      var nextModuleKey = moduleKeys[currModIndex]
+      var nextModule = modules[nextModuleKey]
+      this.$store.commit('UPDATE_MODULE', nextModule)
+      var nextModuleId = nextModule.id
+      this.$router.push(`${nextModuleId}`)
+      this.$store.dispatch('activeModule', nextModuleId)
     }
   }
 })

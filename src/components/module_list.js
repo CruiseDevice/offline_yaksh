@@ -26,7 +26,6 @@ var ModuleList = Vue.component('ModuleList', {
   data () {
     return {
       courseId: undefined,
-      unitId: undefined
     }
   },
   created () {
@@ -38,7 +37,8 @@ var ModuleList = Vue.component('ModuleList', {
   },
   computed: {
     ...Vuex.mapGetters([
-        'moduleId'
+        'moduleId',
+        'unitId'
       ])
   },
   methods: {
