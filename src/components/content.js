@@ -109,11 +109,7 @@ const Content = Vue.component('Content', {
       this.$store.dispatch('submitAnswer')
     },
 
-    next () {
-      let currModule = this.module
-      let modules = this.$store.getters.course_data.learning_module
-      let moduleKeys = Object.keys(modules)
-      let currModIndex = modules.findIndex(module => module.id === currModule.id)
+    nextModule (currModIndex, moduleKeys, modules) {
       if (currModIndex < moduleKeys.length - 1) {
         currModIndex += 1
       } else {
@@ -126,6 +122,33 @@ const Content = Vue.component('Content', {
       var nextModuleId = nextModule.id
       this.$router.push(`${nextModuleId}`)
       this.$store.dispatch('activeModule', nextModuleId)
+    },
+
+    nextLesson(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules) {
+      if (currUnitIndex < unitKeys.length - 1) {
+        currUnitIndex += 1
+      } else {
+        currUnitIndex = 0
+        this.nextModule(currModIndex, moduleKeys, modules)
+      }
+      this.$store.commit('UPDATE_UNIT_INDEX', currUnitIndex)
+      let nextUnitKey = unitKeys[currUnitIndex]
+      let nextUnit = units[nextUnitKey]
+      this.$store.commit('UPDATE_LESSON', nextUnit)
+    },
+
+    next () {
+      let currModule = this.module
+      let currLesson = this.lesson
+      let modules = this.$store.getters.course_data.learning_module
+      let moduleKeys = Object.keys(modules)
+      let currModIndex = modules.findIndex(module => module.id === currModule.id)
+      let units = currModule.learning_unit
+      let unitKeys = Object.keys(units)
+      if (units) {
+        let currUnitIndex = units.findIndex(unit => unit.id === currLesson.id)
+        this.nextLesson(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules)
+      }
     }
   }
 })

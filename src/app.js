@@ -162,17 +162,22 @@ const store = new Vuex.Store({
     },
 
     showModule({commit}, module) {
-      this.state.module = undefined
-      this.state.lesson = undefined
+      // this.state.module = undefined
+      // this.state.lesson = undefined
       this.state.quiz = undefined
       commit('UPDATE_MODULE', module)
     },
     
     showLesson({commit}, lesson) {
-      this.state.lesson = undefined
-      this.state.module = undefined
+      // this.state.lesson = undefined
+      // this.state.module = undefined
       this.state.quiz = undefined
       commit('UPDATE_LESSON', lesson)
+    },
+
+    get_first_lesson({commit}) {
+      let firstLesson = this.getters.module.learning_unit[0]
+      commit('UPDATE_LESSON', firstLesson)
     },
 
     showQuiz({commit}, quiz) {
