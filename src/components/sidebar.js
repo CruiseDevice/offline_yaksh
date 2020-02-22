@@ -25,8 +25,8 @@ const Sidebar = Vue.component('Sidebar', {
     ])
   },
   created () {
-    const courseId = parseInt(this.$route.params.course_id)
-    const quizId = parseInt(this.$route.params.quiz_id)
+    const courseId = parseInt(this.$route.params.course_id),
+          quizId = parseInt(this.$route.params.quiz_id)
     if (courseId && quizId){
       this.fetchQuestions(courseId, quizId)
     }

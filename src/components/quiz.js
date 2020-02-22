@@ -25,9 +25,9 @@ var Quiz = Vue.component('Quiz', {
     submitForm (e) {
       console.log('form submitted')
       e.preventDefault()
-      const username = this.$refs.username.value
-      const password = this.$refs.password.value
-      const payload = {username, password}
+      const username = this.$refs.username.value,
+            password = this.$refs.password.value,
+            payload = {username, password}
       this.$store.dispatch('login', payload)
     }
   }

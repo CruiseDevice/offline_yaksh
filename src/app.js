@@ -133,8 +133,8 @@ const store = new Vuex.Store({
     },
 
     login (state, payload) {
-      const username = payload["username"]
-      const password = payload["password"]
+      const username = payload["username"],
+            password = payload["password"]
       axios({
         method: 'POST',
         url: 'http://localhost:8000/api/login/',
@@ -162,15 +162,11 @@ const store = new Vuex.Store({
     },
 
     showModule({commit}, module) {
-      // this.state.module = undefined
-      // this.state.lesson = undefined
       this.state.quiz = undefined
       commit('UPDATE_MODULE', module)
     },
     
     showLesson({commit}, lesson) {
-      // this.state.lesson = undefined
-      // this.state.module = undefined
       this.state.quiz = undefined
       commit('UPDATE_LESSON', lesson)
     },
@@ -207,17 +203,17 @@ const store = new Vuex.Store({
     },
 
     update_module({commit}, moduleId){
-      let modules = this.getters.course_data.learning_module
-      let module = modules.filter(module => {
-        return module.id == moduleId
-      })
+      let modules = this.getters.course_data.learning_module,
+          module = modules.filter(module => {
+            return module.id == moduleId
+          })
       commit('UPDATE_MODULE', module[0])
     },
 
     async submitAnswer (state) {
-      const answerPaperId = state.state.questions.id
-      const questionId = state.state.question.id
-      const answer = state.state.answer
+      const answerPaperId = state.state.questions.id,
+            questionId = state.state.question.id,
+            answer = state.state.answer
       axios({
         method: 'POST',
         url:`http://localhost:8000/api/validate/${answerPaperId}/${questionId}/`,

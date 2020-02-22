@@ -66,8 +66,8 @@ const Content = Vue.component('Content', {
     </div>
   `,
   created () {
-    let courseId = parseInt(this.$route.params.course_id)
-    let quizId = parseInt(this.$route.params.quiz_id)
+    let courseId = parseInt(this.$route.params.course_id),
+        quizId = parseInt(this.$route.params.quiz_id)
   },
   computed: {
     ...Vuex.mapGetters([
@@ -116,12 +116,12 @@ const Content = Vue.component('Content', {
         currModIndex = 0
       }
       this.$store.commit('UPDATE_MODULE_INDEX', currModIndex)
-      var nextModuleKey = moduleKeys[currModIndex]
-      var nextModule = modules[nextModuleKey]
-      this.$store.commit('UPDATE_MODULE', nextModule)
-      var nextModuleId = nextModule.id
+      let nextModuleKey = moduleKeys[currModIndex],
+          nextModule = modules[nextModuleKey],
+          nextModuleId = nextModule.id
       this.$router.push(`${nextModuleId}`)
       this.$store.dispatch('activeModule', nextModuleId)
+      this.$store.dispatch('showModule', nextModule)
     },
 
     nextLesson(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules) {
@@ -132,19 +132,19 @@ const Content = Vue.component('Content', {
         this.nextModule(currModIndex, moduleKeys, modules)
       }
       this.$store.commit('UPDATE_UNIT_INDEX', currUnitIndex)
-      let nextUnitKey = unitKeys[currUnitIndex]
-      let nextUnit = units[nextUnitKey]
-      this.$store.commit('UPDATE_LESSON', nextUnit)
+      let nextUnitKey = unitKeys[currUnitIndex],
+          nextUnit = units[nextUnitKey]
+      this.$store.dispatch('showLesson', nextUnit)
     },
 
     next () {
-      let currModule = this.module
-      let currLesson = this.lesson
-      let modules = this.$store.getters.course_data.learning_module
-      let moduleKeys = Object.keys(modules)
-      let currModIndex = modules.findIndex(module => module.id === currModule.id)
-      let units = currModule.learning_unit
-      let unitKeys = Object.keys(units)
+      let currModule = this.module,
+          currLesson = this.lesson,
+          modules = this.$store.getters.course_data.learning_module,
+          moduleKeys = Object.keys(modules),
+          currModIndex = modules.findIndex(module => module.id === currModule.id),
+          units = currModule.learning_unit,
+          unitKeys = Object.keys(units)
       if (units) {
         let currUnitIndex = units.findIndex(unit => unit.id === currLesson.id)
         this.nextLesson(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules)
