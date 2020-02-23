@@ -50,7 +50,7 @@ const Content = Vue.component('Content', {
           </div>
           <div class="card-body" v-html="module.description"></div>
         </div>
-        <div v-if="unit.lesson">
+        <div v-if="unit">
           <div class="card-header">
           </div>
             <h4>{{unit.lesson.name}}</h4>

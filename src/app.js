@@ -27,16 +27,16 @@ const router = new VueRouter({routes})
 const store = new Vuex.Store({
   state: {
     file: '',
-    moduleIndex: 0,
     active: '',
     answer: [],
     result: [],
     unitIndex: 0,
     response: [],
     questions: [],
+    moduleIndex: 0,
+    unit: undefined,
     module: undefined,
     unitId: undefined,
-    unit: undefined,
     moduleId: undefined,
     courseData: data[0],
     question: undefined,
@@ -167,18 +167,18 @@ const store = new Vuex.Store({
     },
     
     showUnit({commit}, unit) {
-      this.state.quiz = undefined
       commit('UPDATE_UNIT', unit)
     },
 
     get_first_lesson({commit}) {
-      let firstLesson = this.getters.module.learning_unit[0]
-      commit('UPDATE_UNIT', firstLesson)
+      let module = this.getters.module
+      if(module) {
+        let firstLesson = this.getters.module.learning_unit[0]
+        commit('UPDATE_UNIT', firstLesson)
+      }
     },
 
     showQuiz({commit}, quiz) {
-      this.state.unit = undefined
-      this.state.module = undefined
       localStorage.setItem('quiz', JSON.stringify(quiz))
       commit('UPDATE_QUIZ', quiz)
     },
@@ -248,19 +248,19 @@ const store = new Vuex.Store({
   getters: {
     course_data: state => state.courseData,
     getQuestions: state => state.questions,
-    gettoken: state => state.TOKEN,
     question: state => state.question,
+    gettoken: state => state.TOKEN,
     answer: state => state.answer,
     result: state => state.result,
     module: state => state.module,
     unit: state => state.unit,
     quiz: state => state.quiz,
     active: state => state.active,
-    time_left: state => state.time_left,
-    moduleIndex: state => state.moduleIndex,
-    unitIndex: state => state.unitIndex,
-    moduleId: state => state.moduleId,
     unitId: state => state.unitId,
+    moduleId: state => state.moduleId,
+    time_left: state => state.time_left,
+    unitIndex: state => state.unitIndex,
+    moduleIndex: state => state.moduleIndex,
   }
 })
 
