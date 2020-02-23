@@ -36,7 +36,7 @@ const store = new Vuex.Store({
     questions: [],
     module: undefined,
     unitId: undefined,
-    lesson: undefined,
+    unit: undefined,
     moduleId: undefined,
     courseData: data[0],
     question: undefined,
@@ -118,8 +118,8 @@ const store = new Vuex.Store({
       state.unitId = payload
     },
 
-    UPDATE_LESSON(state, payload) {
-      state.lesson = payload
+    UPDATE_UNIT(state, payload) {
+      state.unit = payload
     },
 
     UPDATE_QUIZ(state, payload) {
@@ -166,18 +166,18 @@ const store = new Vuex.Store({
       commit('UPDATE_MODULE', module)
     },
     
-    showLesson({commit}, lesson) {
+    showUnit({commit}, unit) {
       this.state.quiz = undefined
-      commit('UPDATE_LESSON', lesson)
+      commit('UPDATE_UNIT', unit)
     },
 
     get_first_lesson({commit}) {
       let firstLesson = this.getters.module.learning_unit[0]
-      commit('UPDATE_LESSON', firstLesson)
+      commit('UPDATE_UNIT', firstLesson)
     },
 
     showQuiz({commit}, quiz) {
-      this.state.lesson = undefined
+      this.state.unit = undefined
       this.state.module = undefined
       localStorage.setItem('quiz', JSON.stringify(quiz))
       commit('UPDATE_QUIZ', quiz)
@@ -253,7 +253,7 @@ const store = new Vuex.Store({
     answer: state => state.answer,
     result: state => state.result,
     module: state => state.module,
-    lesson: state => state.lesson,
+    unit: state => state.unit,
     quiz: state => state.quiz,
     active: state => state.active,
     time_left: state => state.time_left,

@@ -50,12 +50,12 @@ const Content = Vue.component('Content', {
           </div>
           <div class="card-body" v-html="module.description"></div>
         </div>
-        <div v-if="lesson">
+        <div v-if="unit.lesson">
           <div class="card-header">
           </div>
-            <h4>{{lesson.name}}</h4>
+            <h4>{{unit.lesson.name}}</h4>
           <div class="card-body">
-            <div v-html="lesson.description"></div>
+            <div v-html="unit.lesson.description"></div>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ const Content = Vue.component('Content', {
       'answer',
       'result',
       'module',
-      'lesson',
+      'unit',
       'moduleIndex',
       'moduleId',
       'unitIndex',
@@ -124,7 +124,7 @@ const Content = Vue.component('Content', {
       this.$store.dispatch('showModule', nextModule)
     },
 
-    nextLesson(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules) {
+    nextUnit(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules) {
       if (currUnitIndex < unitKeys.length - 1) {
         currUnitIndex += 1
       } else {
@@ -134,20 +134,20 @@ const Content = Vue.component('Content', {
       this.$store.commit('UPDATE_UNIT_INDEX', currUnitIndex)
       let nextUnitKey = unitKeys[currUnitIndex],
           nextUnit = units[nextUnitKey]
-      this.$store.dispatch('showLesson', nextUnit)
+      this.$store.dispatch('showUnit', nextUnit)
     },
 
     next () {
       let currModule = this.module,
-          currLesson = this.lesson,
+          currUnit = this.unit,
           modules = this.$store.getters.course_data.learning_module,
           moduleKeys = Object.keys(modules),
           currModIndex = modules.findIndex(module => module.id === currModule.id),
           units = currModule.learning_unit,
           unitKeys = Object.keys(units)
       if (units) {
-        let currUnitIndex = units.findIndex(unit => unit.id === currLesson.id)
-        this.nextLesson(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules)
+        let currUnitIndex = units.findIndex(unit => unit.id === currUnit.id)
+        this.nextUnit(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules)
       }
     }
   }

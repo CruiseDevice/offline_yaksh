@@ -12,7 +12,7 @@ var ModuleList = Vue.component('ModuleList', {
                     <router-link v-on:click.native="showQuiz(unit.quiz)" :to="'/'+courseId+'/'+unit.id+'/'+unit.quiz.id" target="_blank">{{unit.quiz.description}}</router-link>
                   </div>
                   <div v-if="unit.lesson">
-                    <a @click="showLesson(unit.lesson)">{{unit.lesson.name}}</a>
+                    <a @click="showUnit(unit)">{{unit.lesson.name}}</a>
                   </div>
                 </li>
               </div>
@@ -45,7 +45,7 @@ var ModuleList = Vue.component('ModuleList', {
   methods: {
     ...Vuex.mapActions([
       'showModule',
-      'showLesson',
+      'showUnit',
       'showQuiz',
       'activeModule',
       'activeUnit',
