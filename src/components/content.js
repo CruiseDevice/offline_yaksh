@@ -130,6 +130,7 @@ const Content = Vue.component('Content', {
       this.$router.push(`${nextModuleId}`)
       this.$store.dispatch('activeModule', nextModuleId)
       this.$store.dispatch('showModule', nextModule)
+      this.$store.dispatch('getFirstLesson')
     },
 
     nextUnit(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules) {

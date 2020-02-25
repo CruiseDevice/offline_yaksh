@@ -170,11 +170,12 @@ const store = new Vuex.Store({
       commit('UPDATE_UNIT', unit)
     },
 
-    get_first_lesson({commit}) {
+    getFirstLesson({commit}) {
       let module = this.getters.module
       if(module) {
-        let firstLesson = this.getters.module.learning_unit[0]
-        commit('UPDATE_UNIT', firstLesson)
+        let firstUnit = this.getters.module.learning_unit[0]
+        commit('UPDATE_UNIT', firstUnit)
+        // router.push(`${firstUnit.id}`)
       }
     },
 
@@ -202,7 +203,7 @@ const store = new Vuex.Store({
       }
     },
 
-    update_module({commit}, moduleId){
+    updateModule({commit}, moduleId){
       let modules = this.getters.course_data.learning_module,
           module = modules.filter(module => {
             return module.id == moduleId

@@ -64,19 +64,20 @@ a, a:hover, a:focus {
     font-size: 1.1em;
     display: block;
 }
-#sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
-}
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #6d7fcc;
     background: #fff;
 }
+
+#sidebar ul li ul li.active {
+  color: #ff851b;
+  background: #3f51b5;
+}
+
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #3f51b5;
 }
 
 #sidebar.active {
