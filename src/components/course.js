@@ -13,7 +13,7 @@ var Course = Vue.component('Course', {
                   <button class="btn btn-primary" data-toggle="collapse" :data-target="'#collapseExample-' + index">
                     DETAILS
                   </button>
-                  <router-link :to="'/module/'+ course_data.id + '/' + module.id" class="btn btn-success">Start</router-link>
+                  <router-link class="btn btn-success" :to="{name: 'ViewModule', params: {course_id: course_data.id, module_id: module.id}}">Start</strong></router-link>
                 </p>
               </div>
             </div>

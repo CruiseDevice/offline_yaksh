@@ -9,7 +9,7 @@ var ModuleList = Vue.component('ModuleList', {
               <div v-for="(unit, index) in module.learning_unit" :key="unit.id">
                 <li :class="{'active': unit.id === unitId }" @click="activeUnit(unit.id)" :id="'unitList-' + unitId">
                   <div v-if="unit.quiz">
-                    <router-link v-on:click.native="showQuiz(unit.quiz)" :to="'/'+courseId+'/'+unit.id+'/'+unit.quiz.id" target="_blank"><strong>{{unit.quiz.description}}</strong></router-link>
+                    <router-link v-on:click.native="showQuiz(unit.quiz)" :to="{name: 'QuizInstructions', params: {course_id: courseId, unit_id: unit.id, quiz_id: unit.quiz.id}}" target="_blank"><strong>{{unit.quiz.description}}</strong></router-link>
                   </div>
                   <div v-if="unit.lesson">
                     <a @click="showUnit(unit)"><strong>{{unit.lesson.name}}</strong></a>
