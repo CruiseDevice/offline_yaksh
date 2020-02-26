@@ -52,11 +52,21 @@ const Content = Vue.component('Content', {
         </div>
         <div v-if="unit">
           <div v-if="unit.lesson">
-            <div class="card-header">
+            <div v-if="unit.lesson.video_file">
+              <div class="card-header">
+              </div>
+                <h4>{{unit.lesson.name}}</h4>
+              <div class="card-body">
+                <video :src="unit.lesson.video_file" width="100%" controls></video>
+              </div>
             </div>
-              <h4>{{unit.lesson.name}}</h4>
-            <div class="card-body">
-              <div v-html="unit.lesson.description"></div>
+            <div v-else>
+              <div class="card-header">
+              </div>
+                <h4>{{unit.lesson.name}}</h4>
+              <div class="card-body">
+                <div v-html="unit.lesson.description"></div>
+              </div>
             </div>
           </div>
           <div v-else>
@@ -76,8 +86,7 @@ const Content = Vue.component('Content', {
     </div>
   `,
   created () {
-    let courseId = parseInt(this.$route.params.course_id),
-        quizId = parseInt(this.$route.params.quiz_id)
+    this.$store.dispatch('getFirstQuestion')
   },
   computed: {
     ...Vuex.mapGetters([
@@ -160,6 +169,6 @@ const Content = Vue.component('Content', {
         let currUnitIndex = units.findIndex(unit => unit.id === currUnit.id)
         this.nextUnit(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules)
       }
-    }
+    },
   }
 })
