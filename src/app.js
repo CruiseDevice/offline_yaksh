@@ -75,11 +75,11 @@ const store = new Vuex.Store({
     SET_QUIZ_TIMER (state, payload) {
       state.time_left = payload
     },
-    
+
     UPDATE_QUIZ_TIMER(state, payload) {
       state.time_left = payload
     },
-    
+
     UPDATE_QUESTION (state, payload) {
       state.question = payload
     },
@@ -165,18 +165,22 @@ const store = new Vuex.Store({
       this.state.quiz = undefined
       commit('UPDATE_MODULE', module)
     },
-    
+
     showUnit({commit}, unit) {
       commit('UPDATE_UNIT', unit)
     },
 
     getFirstLesson({commit}) {
       let module = this.getters.module
+      console.log(module.learning_unit[0])
       if(module) {
-        let firstUnit = this.getters.module.learning_unit[0]
+        let firstUnit = module.learning_unit[0]
         commit('UPDATE_UNIT', firstUnit)
-        // router.push(`${firstUnit.id}`)
       }
+    },
+
+    getFirstQuestion({commit}) {
+      
     },
 
     showQuiz({commit}, quiz) {
@@ -234,7 +238,7 @@ const store = new Vuex.Store({
               url: `http://localhost:8000/api/validate/${response.data.uid}/`,
               headers: {
                 Authorization: 'Token ' + state.state.TOKEN
-              } 
+              }
             })
             .then((response) => {
               const result = JSON.parse(response.data.result)

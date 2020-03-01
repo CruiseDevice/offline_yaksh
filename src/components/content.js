@@ -40,7 +40,7 @@ const Content = Vue.component('Content', {
         </div>
       </div>
       <div class="card">
-        <div v-if="module">
+        <div v-if="!unit">
           <div class="card-header">
             <div class="row">
               <div class="col-md-8">
@@ -141,20 +141,19 @@ const Content = Vue.component('Content', {
       this.$router.push(`${nextModuleId}`)
       this.$store.dispatch('activeModule', nextModuleId)
       this.$store.dispatch('showModule', nextModule)
-      this.$store.dispatch('getFirstLesson')
     },
 
     nextUnit(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules) {
-      if (currUnitIndex < unitKeys.length - 1) {
+      let nextUnitKey = unitKeys[currUnitIndex],
+          nextUnit = units[nextUnitKey]
+      this.$store.dispatch('showUnit', nextUnit)
+      if (currUnitIndex <= unitKeys.length - 1) {
         currUnitIndex += 1
       } else {
         currUnitIndex = 0
         this.nextModule(currModIndex, moduleKeys, modules)
       }
       this.$store.commit('UPDATE_UNIT_INDEX', currUnitIndex)
-      let nextUnitKey = unitKeys[currUnitIndex],
-          nextUnit = units[nextUnitKey]
-      this.$store.dispatch('showUnit', nextUnit)
     },
 
     next () {
@@ -166,7 +165,7 @@ const Content = Vue.component('Content', {
           units = currModule.learning_unit,
           unitKeys = Object.keys(units)
       if (units) {
-        let currUnitIndex = units.findIndex(unit => unit.id === currUnit.id)
+        let currUnitIndex = this.unitIndex
         this.nextUnit(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules)
       }
     },

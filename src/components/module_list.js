@@ -32,7 +32,7 @@ var ModuleList = Vue.component('ModuleList', {
     this.courseId = parseInt(this.$route.params.course_id)
     const moduleId = parseInt(this.$route.params.module_id)
     this.$store.dispatch('updateModule', moduleId)
-    this.$store.dispatch('getFirstLesson')
+    // this.$store.dispatch('getFirstLesson')
     this.$store.dispatch('activeModule', moduleId)
     localStorage.removeItem("quiz")
   },
