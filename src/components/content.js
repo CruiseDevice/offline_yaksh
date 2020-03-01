@@ -57,7 +57,7 @@ const Content = Vue.component('Content', {
               </div>
                 <h4>{{unit.lesson.name}}</h4>
               <div class="card-body">
-                <video :src="unit.lesson.video_file" width="100%" controls></video>
+                <video :src="unit.lesson.video_file" :key="unit.lesson.id" width="100%" controls></video>
               </div>
             </div>
             <div v-else>
@@ -85,9 +85,6 @@ const Content = Vue.component('Content', {
       </div>
     </div>
   `,
-  created () {
-    this.$store.dispatch('getFirstQuestion')
-  },
   computed: {
     ...Vuex.mapGetters([
       'question',
@@ -138,7 +135,6 @@ const Content = Vue.component('Content', {
       let nextModuleKey = moduleKeys[currModIndex],
           nextModule = modules[nextModuleKey],
           nextModuleId = nextModule.id
-      this.$router.push(`${nextModuleId}`)
       this.$store.dispatch('activeModule', nextModuleId)
       this.$store.dispatch('showModule', nextModule)
     },

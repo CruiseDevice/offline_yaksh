@@ -163,29 +163,13 @@ const store = new Vuex.Store({
 
     showModule({commit}, module) {
       this.state.quiz = undefined
+      this.state.unitIndex = 0
       commit('UPDATE_MODULE', module)
+      commit('UPDATE_UNIT_ID', undefined)
     },
 
     showUnit({commit}, unit) {
       commit('UPDATE_UNIT', unit)
-    },
-
-    getFirstLesson({commit}) {
-      let module = this.getters.module
-      console.log(module.learning_unit[0])
-      if(module) {
-        let firstUnit = module.learning_unit[0]
-        commit('UPDATE_UNIT', firstUnit)
-      }
-    },
-
-    getFirstQuestion({commit}) {
-      
-    },
-
-    showQuiz({commit}, quiz) {
-      localStorage.setItem('quiz', JSON.stringify(quiz))
-      commit('UPDATE_QUIZ', quiz)
     },
 
     activeModule ({commit}, module_id) {
@@ -197,6 +181,20 @@ const store = new Vuex.Store({
 
     activeUnit ({commit}, unit_id) {
       commit('UPDATE_UNIT_ID', unit_id)
+    },
+
+    getFirstLesson({commit}) {
+      let module = this.getters.module
+      console.log(module.learning_unit[0])
+      if(module) {
+        let firstUnit = module.learning_unit[0]
+        commit('UPDATE_UNIT', firstUnit)
+      }
+    },
+
+    showQuiz({commit}, quiz) {
+      localStorage.setItem('quiz', JSON.stringify(quiz))
+      commit('UPDATE_QUIZ', quiz)
     },
 
     updateCheckedAnswers ({commit}, choices) {
