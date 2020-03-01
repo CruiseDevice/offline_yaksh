@@ -146,7 +146,13 @@ const Content = Vue.component('Content', {
     nextUnit(currUnitIndex, unitKeys, units, currModIndex, moduleKeys, modules) {
       let nextUnitKey = unitKeys[currUnitIndex],
           nextUnit = units[nextUnitKey]
-      this.$store.dispatch('showUnit', nextUnit)
+      if (nextUnit) {
+        this.$store.dispatch('activeUnit', nextUnit.id)
+        this.$store.dispatch('showUnit', nextUnit)
+      } else {
+        this.$store.dispatch('activeUnit', undefined)
+        this.$store.dispatch('showUnit', undefined)
+      }
       if (currUnitIndex <= unitKeys.length - 1) {
         currUnitIndex += 1
       } else {
