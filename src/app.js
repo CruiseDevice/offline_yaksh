@@ -62,6 +62,22 @@ const store = new Vuex.Store({
       state.unitIndex = payload
     },
 
+    UPDATE_MODULE(state, payload) {
+      state.module = payload
+    },
+
+    UPDATE_MODULE_ID (state, payload) {
+      state.moduleId = payload
+    },
+
+    UPDATE_UNIT_ID (state, payload) {
+      state.unitId = payload
+    },
+
+    UPDATE_UNIT(state, payload) {
+      state.unit = payload
+    },
+
     UPDATE_SELECTED_QUESTION(state, payload) {
       if(payload) {
         state.questions = payload;
@@ -104,22 +120,6 @@ const store = new Vuex.Store({
 
     SET_ANSWER(state, payload) {
       state.answer = payload
-    },
-
-    UPDATE_MODULE(state, payload) {
-      state.module = payload
-    },
-
-    UPDATE_MODULE_ID (state, payload) {
-      state.moduleId = payload
-    },
-
-    UPDATE_UNIT_ID (state, payload) {
-      state.unitId = payload
-    },
-
-    UPDATE_UNIT(state, payload) {
-      state.unit = payload
     },
 
     UPDATE_QUIZ(state, payload) {
@@ -172,20 +172,33 @@ const store = new Vuex.Store({
       commit('UPDATE_UNIT', unit)
     },
 
-    activeModule ({commit}, module_id) {
+    activeModule ({commit, dispatch}, module_id) {
       commit('UPDATE_MODULE_ID', module_id)
       if(module_id){
         router.push(`${module_id}`).catch(err=>{})
       }
+      dispatch('updateModule', module_id)
     },
 
     activeUnit ({commit}, unit_id) {
+      let currModule = this.getters.module
+      let units = currModule.learning_unit
+      let unitKeys = Object.keys(units)
+      if (unit_id) {
+        let currUnitIndex = units.findIndex(u => u.id === unit_id)
+        if (currUnitIndex === -1 || currUnitIndex > unitKeys.length) {
+          currUnitIndex = 0
+          commit('UPDATE_UNIT_INDEX', currUnitIndex)
+        } else {
+          currUnitIndex += 1
+          commit('UPDATE_UNIT_INDEX', currUnitIndex)
+        }
+      }
       commit('UPDATE_UNIT_ID', unit_id)
     },
 
     getFirstLesson({commit}) {
       let module = this.getters.module
-      console.log(module.learning_unit[0])
       if(module) {
         let firstUnit = module.learning_unit[0]
         commit('UPDATE_UNIT', firstUnit)
