@@ -40,7 +40,7 @@ const Content = Vue.component('Content', {
         </div>
       </div>
       <div class="card">
-        <div v-if="!unit">
+        <div v-if="!unit && module">
           <div class="card-header">
             <div class="row">
               <div class="col-md-8">
