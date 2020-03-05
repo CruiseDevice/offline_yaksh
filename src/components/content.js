@@ -75,6 +75,7 @@ const Content = Vue.component('Content', {
               <h4>{{unit.quiz.description}}</h4>
             <div class="card-body">
               <div v-html="unit.quiz.instructions"></div>
+             <center><router-link class="btn btn-primary" v-on:click.native="showQuiz(unit.quiz)" :to="{name: 'QuizInstructions', params: {course_id: courseId, unit_id: unit.id, quiz_id: unit.quiz.id}}" target="_blank"><strong>Start Quiz</strong></router-link></center>
             </div>
           </div>
         </div>
@@ -85,6 +86,14 @@ const Content = Vue.component('Content', {
       </div>
     </div>
   `,
+  data () {
+    return {
+      courseId: undefined
+    }
+  },
+  created () {
+    this.courseId = parseInt(this.$route.params.course_id)
+  },
   computed: {
     ...Vuex.mapGetters([
       'question',
@@ -106,6 +115,9 @@ const Content = Vue.component('Content', {
     }
   },
   methods: {
+    ...Vuex.mapActions([
+      'showQuiz',
+    ]),
     updateCheckedAnswers (e) {
       e.preventDefault()
       this.$store.dispatch('updateCheckedAnswers', e.target)
