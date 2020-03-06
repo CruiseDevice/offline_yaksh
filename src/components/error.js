@@ -1,7 +1,7 @@
 const Error = Vue.component('Error', {
   template: `
     <div>
-      <div v-show="result">
+      <div v-show="result.length !== 0">
         <div class="card">
           <div class="card-body">
             <strong>{{result}}</strong>
