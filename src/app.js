@@ -33,6 +33,7 @@ const store = new Vuex.Store({
     unitIndex: 0,
     response: [],
     questions: [],
+    loading: false,
     moduleIndex: 0,
     unit: undefined,
     module: undefined,
@@ -48,6 +49,10 @@ const store = new Vuex.Store({
   mutations: {
     UPDATE_COURSE (state, payload) {
       state.courseData = payload
+    },
+
+    UPDATE_LOADING (state, payload) {
+      state.loading = payload
     },
 
     UPDATE_TOKEN (state, payload) {
@@ -273,6 +278,7 @@ const store = new Vuex.Store({
     quiz: state => state.quiz,
     active: state => state.active,
     unitId: state => state.unitId,
+    loading: state => state.loading,
     moduleId: state => state.moduleId,
     time_left: state => state.time_left,
     unitIndex: state => state.unitIndex,

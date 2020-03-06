@@ -1,6 +1,9 @@
 var Quiz = Vue.component('Quiz', {
   template: `
     <div class="wrapper">
+      <div>
+        <Loading v-if="loading"/>
+      </div>
       <Sidebar/>
       <Content/>
       <div v-if="gettoken === undefined ">
@@ -18,8 +21,9 @@ var Quiz = Vue.component('Quiz', {
   `,
   computed: {
     ...Vuex.mapGetters([
-      'gettoken'
-    ])
+      'gettoken',
+      'loading'
+    ]),
   },
   methods: {
     submitForm (e) {

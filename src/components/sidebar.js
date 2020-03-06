@@ -21,7 +21,8 @@ const Sidebar = Vue.component('Sidebar', {
       'getQuestions',
       'gettoken',
       'course_data',
-      'active'
+      'active',
+      'loading'
     ])
   },
   created () {
@@ -33,6 +34,7 @@ const Sidebar = Vue.component('Sidebar', {
   },
   methods: {
     fetchQuestions (course_id, quiz_id) {
+      this.$store.commit('UPDATE_LOADING', true)
       axios({
         method: 'get',
         url: `http://localhost:8000/api/start_quiz/${course_id}/${quiz_id}`,
@@ -52,6 +54,7 @@ const Sidebar = Vue.component('Sidebar', {
           console.log(message)
           this.$store.commit('UPDATE_RESPONSE_RESULT', message)
         }
+        this.$store.commit('UPDATE_LOADING', false)
       })
       .catch((error) => {
         console.log(error)
