@@ -42,10 +42,16 @@ const Sidebar = Vue.component('Sidebar', {
         }
       })
       .then((response) => {
-        let firstQuestion = response.data.answerpaper.questions[0]
-        this.$store.commit('UPDATE_SELECTED_QUESTION', response.data.answerpaper)
-        this.$store.commit('UPDATE_QUESTION', firstQuestion)
-        this.$store.commit('SET_QUIZ_TIMER', response.data.time_left)
+        if(response.data.answerpaper){
+          let firstQuestion = response.data.answerpaper.questions[0]
+          this.$store.commit('UPDATE_SELECTED_QUESTION', response.data.answerpaper)
+          this.$store.commit('UPDATE_QUESTION', firstQuestion)
+          this.$store.commit('SET_QUIZ_TIMER', response.data.time_left)
+        } else {
+          let message = response.data.message
+          console.log(message)
+          this.$store.commit('UPDATE_RESPONSE_RESULT', message)
+        }
       })
       .catch((error) => {
         console.log(error)

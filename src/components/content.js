@@ -39,6 +39,7 @@ const Content = Vue.component('Content', {
           <Error :result="result"/>
         </div>
       </div>
+      <Error :result="result"/>
       <div class="card">
         <div v-if="!unit && module">
           <div class="card-header">
