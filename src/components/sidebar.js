@@ -50,9 +50,10 @@ const Sidebar = Vue.component('Sidebar', {
           this.$store.commit('UPDATE_QUESTION', firstQuestion)
           this.$store.commit('SET_QUIZ_TIMER', response.data.time_left)
         } else {
-          let message = response.data.message
-          console.log(message)
-          this.$store.commit('UPDATE_RESPONSE_RESULT', message)
+          let dict = {}
+          dict["message"] = response.data.message
+          console.log(dict)
+          this.$store.commit('UPDATE_RESPONSE_RESULT', dict)
         }
         this.$store.commit('UPDATE_LOADING', false)
       })

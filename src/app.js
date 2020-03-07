@@ -235,6 +235,7 @@ const store = new Vuex.Store({
       const answerPaperId = state.state.questions.id,
             questionId = state.state.question.id,
             answer = state.state.answer
+      state.commit('UPDATE_LOADING', true)
       axios({
         method: 'POST',
         url:`http://localhost:8000/api/validate/${answerPaperId}/${questionId}/`,
@@ -262,6 +263,7 @@ const store = new Vuex.Store({
             })
           }
         }
+        state.commit('UPDATE_LOADING', false)
       })
     }
   },
