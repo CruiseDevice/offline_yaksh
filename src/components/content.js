@@ -7,7 +7,7 @@ const Content = Vue.component('Content', {
       <div v-if="question">
         <div class="card">
           <div class="card-header">
-            {{question.id}}. <h5><strong>{{question.summary}}</strong></h5>
+            {{questionNumber}}. <h5><strong>{{question.summary}}</strong></h5>
             <strong>{{question.type}}</strong>              
           </div>
           <div class="card-body">
@@ -107,6 +107,7 @@ const Content = Vue.component('Content', {
       'moduleIndex',
       'moduleId',
       'unitIndex',
+      'questionNumber'
     ]),
     answer: {
       get () {

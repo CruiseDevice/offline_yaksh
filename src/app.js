@@ -43,6 +43,7 @@ const store = new Vuex.Store({
     moduleId: undefined,
     courseData: data[0],
     question: undefined,
+    questionNumber: undefined,
     time_left: undefined,
     quiz: JSON.parse(localStorage.getItem('quiz')) || undefined,
     TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
@@ -107,6 +108,10 @@ const store = new Vuex.Store({
       state.question = payload
     },
 
+    UPDATE_QUESTION_NUMBER (state, payload) {
+      state.questionNumber = payload
+    },
+
     UPDATE_CHECKED_ANSWERS (state, payload) {
       state.answer.push(payload)
     },
@@ -163,17 +168,20 @@ const store = new Vuex.Store({
         if (token) {
           localStorage.setItem('TOKEN', JSON.stringify(token))
           state.commit('UPDATE_TOKEN', token)
+          location.reload()
         }
       }).catch((error) => {
         console.log(error)
       })
     },
 
-    showQuestion({commit}, question) {
+    showQuestion({commit}, payload) {
+      console.log(payload)
       this.state.result = []
       this.state.answer = []
-      commit('UPDATE_QUESTION', question)
-      localStorage.setItem('question', JSON.stringify(question))
+      commit('UPDATE_QUESTION', payload.question)
+      commit('UPDATE_QUESTION_NUMBER', payload.index + 1)
+      localStorage.setItem('question', JSON.stringify(payload.question))
     },
 
     showModule({commit}, module) {
@@ -290,6 +298,7 @@ const store = new Vuex.Store({
     quiz: state => state.quiz,
     isOffline: state => state.isOffline,
     isOnline: state => state.isOnline,
+    questionNumber: state => state.questionNumber,
     active: state => state.active,
     unitId: state => state.unitId,
     loading: state => state.loading,
