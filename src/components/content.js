@@ -57,16 +57,16 @@ const Content = Vue.component('Content', {
           <div v-if="unit.lesson">
             <div v-if="unit.lesson.video_file">
               <div class="card-header">
-              </div>
                 <h4>{{unit.lesson.name}}</h4>
+              </div>
               <div class="card-body">
                 <video :src="unit.lesson.video_file" :key="unit.lesson.id" width="100%" controls></video>
               </div>
             </div>
             <div v-else>
               <div class="card-header">
-              </div>
                 <h4>{{unit.lesson.name}}</h4>
+              </div>
               <div class="card-body">
                 <div v-html="unit.lesson.description"></div>
               </div>
@@ -74,8 +74,8 @@ const Content = Vue.component('Content', {
           </div>
           <div v-else>
             <div class="card-header">
-            </div>
               <h4>{{unit.quiz.description}}</h4>
+            </div>
             <div class="card-body">
               <div v-html="unit.quiz.instructions"></div>
              <center><router-link class="btn btn-primary" v-on:click.native="showQuiz(unit.quiz)" :to="{name: 'QuizInstructions', params: {course_id: courseId, unit_id: unit.id, quiz_id: unit.quiz.id}}" target="_blank"><strong>Start Quiz</strong></router-link></center>
