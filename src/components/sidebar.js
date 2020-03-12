@@ -52,7 +52,6 @@ const Sidebar = Vue.component('Sidebar', {
         } else {
           let dict = {}
           dict["message"] = response.data.message
-          console.log(dict)
           this.$store.commit('UPDATE_RESPONSE_RESULT', dict)
         }
         this.$store.commit('UPDATE_LOADING', false)

@@ -2,6 +2,8 @@ const Content = Vue.component('Content', {
   template: `
     <div id="content">
       <ToggleButton />
+      <br />
+      <Login />
       <div v-if="question">
         <div class="card">
           <div class="card-header">
@@ -82,7 +84,7 @@ const Content = Vue.component('Content', {
         </div>
       </div>
       <br/>
-      <div v-if="!question">
+      <div v-if="module !== undefined || unit !== undefined">
         <center><button class="btn btn-primary" @click.prevent="next">Next</button></center>
       </div>
     </div>
