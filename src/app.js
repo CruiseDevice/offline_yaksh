@@ -32,6 +32,8 @@ const store = new Vuex.Store({
     result: [],
     unitIndex: 0,
     response: [],
+    isOnline: false,
+    isOffline: false,
     questions: [],
     loading: false,
     moduleIndex: 0,
@@ -129,6 +131,14 @@ const store = new Vuex.Store({
 
     UPDATE_QUIZ(state, payload) {
       state.quiz = payload
+    },
+
+    UPDATE_ISONLINE(state, payload) {
+      state.isOnline = payload
+    },
+
+    UPDATE_ISOFFLINE(state, payload) {
+      state.isOffline = payload
     }
   },
 
@@ -278,6 +288,8 @@ const store = new Vuex.Store({
     module: state => state.module,
     unit: state => state.unit,
     quiz: state => state.quiz,
+    isOffline: state => state.isOffline,
+    isOnline: state => state.isOnline,
     active: state => state.active,
     unitId: state => state.unitId,
     loading: state => state.loading,
@@ -303,41 +315,10 @@ new Vue({
           </a>
         </div>
         <Timer />
-        <p class="indicator online" v-if="isOnline">Online</p>
-        <p class="indicator offline" v-if="isOffline">Offline</p>
+        <AppStatus />
       </div>
     </nav>
     <router-view/>
   </div>
   `,
-  data () {
-    return {
-      isOnline: false,
-      isOffline: false
-    }
-  },
-  mounted () {
-    if (typeof window !== 'undefined') {
-      navigator.onLine ? this.isOnline = true : this.isOffline = true
-      const onlineHandler = () => {
-        this.$emit('online')
-        this.isOnline = true
-        this.isOffline = false
-      }
-
-      const offlineHandler = () => {
-        this.$emit('offline')
-        this.isOffline = true
-        this.isOnline = false
-      }
-
-      window.addEventListener('online',  onlineHandler)
-      window.addEventListener('offline',  offlineHandler)
-
-      this.$once('hook:beforeDestroy', () => {
-        window.removeEventListener('online', onlineHandler)
-        window.removeEventListener('offline', offlineHandler)
-      })
-    }
-  }
 })

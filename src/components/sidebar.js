@@ -28,7 +28,7 @@ const Sidebar = Vue.component('Sidebar', {
   created () {
     const courseId = parseInt(this.$route.params.course_id),
           quizId = parseInt(this.$route.params.quiz_id)
-    if (courseId && quizId){
+    if (courseId && quizId && this.gettoken !== undefined){
       this.fetchQuestions(courseId, quizId)
     }
   },
@@ -52,7 +52,6 @@ const Sidebar = Vue.component('Sidebar', {
         } else {
           let dict = {}
           dict["message"] = response.data.message
-          console.log(dict)
           this.$store.commit('UPDATE_RESPONSE_RESULT', dict)
         }
         this.$store.commit('UPDATE_LOADING', false)
