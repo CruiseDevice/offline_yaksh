@@ -55,12 +55,12 @@ const Content = Vue.component('Content', {
         </div>
         <div v-if="unit">
           <div v-if="unit.lesson">
-            <div v-if="unit.lesson.video_file">
+            <div v-if="unit.lesson.video_path">
               <div class="card-header">
                 <h4>{{unit.lesson.name}}</h4>
               </div>
               <div class="card-body">
-                <video :src="unit.lesson.video_file" :key="unit.lesson.id" width="100%" controls></video>
+                <video :src="unit.lesson.video_path" :key="unit.lesson.id" width="100%" controls></video>
               </div>
             </div>
             <div v-else>
