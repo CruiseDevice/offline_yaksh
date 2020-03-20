@@ -1,6 +1,7 @@
 var Course = Vue.component('Course', {
   template:`
     <div class="container" id="modules">
+    <center><h2>{{course_data.name}}</h2></center>
       <div v-for="(module, index) in course_data.learning_module" :key="module.id">
         <div class="card">
           <div class="card-header">
