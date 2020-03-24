@@ -249,40 +249,54 @@ const store = new Vuex.Store({
       commit('UPDATE_MODULE', module[0])
     },
 
-    async submitAnswer (state) {
-      const answerPaperId = state.state.questions.id,
-            questionId = state.state.question.id,
-            answer = state.state.answer
-      state.commit('UPDATE_LOADING', true)
-      axios({
+    async check_status({commit, dispatch}, response) {
+      const question = this.getters.question,
+            TOKEN = this.getters.gettoken;
+
+      if (question.type === 'code') {
+        const status = response.data.status,
+              uid = response.data.uid;
+
+        if (status === 'running') {
+          const _response = await axios({
+            method: 'GET',
+              url: `http://localhost:8000/api/validate/${uid}/`,
+              headers: {
+                Authorization: 'Token ' + TOKEN
+              }
+          });
+
+          if (_response) {
+            const result = JSON.parse(_response.data.result)
+            if (result) {
+              commit('UPDATE_RESPONSE_RESULT', result)
+              commit('UPDATE_LOADING', false)
+            } else {
+              dispatch('check_status', response)
+            }
+          }
+        }
+      }
+    },
+
+    async submitAnswer ({commit, dispatch}) {
+      const answerPaperId = this.getters.getQuestions.id,
+            questionId = this.getters.question.id,
+            answer = this.getters.answer,
+            TOKEN = this.getters.gettoken;
+      commit('UPDATE_LOADING', true)
+      const response = await axios({
         method: 'POST',
         url:`http://localhost:8000/api/validate/${answerPaperId}/${questionId}/`,
         headers: {
-          Authorization: 'Token ' + state.state.TOKEN
+          Authorization: 'Token ' + TOKEN
         },
         data: {
           answer: answer
         },
-        timeout: 2500
-      })
-      .then((response) => {
-        if(this.state.question.type === 'code') {
-          if(response.data.status === 'running') {
-            axios({
-              method: 'GET',
-              url: `http://localhost:8000/api/validate/${response.data.uid}/`,
-              headers: {
-                Authorization: 'Token ' + state.state.TOKEN
-              }
-            })
-            .then((response) => {
-              const result = JSON.parse(response.data.result)
-              state.commit('UPDATE_RESPONSE_RESULT', result)
-            })
-          }
-        }
-        state.commit('UPDATE_LOADING', false)
-      })
+      });
+
+      dispatch('check_status', response)
     }
   },
 
