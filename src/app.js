@@ -185,7 +185,6 @@ const store = new Vuex.Store({
     },
 
     showModule({commit}, module) {
-      this.state.quiz = undefined
       this.state.unitIndex = 0
       commit('UPDATE_MODULE', module)
       commit('UPDATE_UNIT_ID', undefined)
@@ -249,15 +248,18 @@ const store = new Vuex.Store({
       commit('UPDATE_MODULE', module[0])
     },
 
-    async check_status({commit, dispatch}, response) {
+    async check_status({commit, dispatch}, payload) {
       const question = this.getters.question,
-            TOKEN = this.getters.gettoken;
+            TOKEN = this.getters.gettoken,
+            response = payload.response;
+      let count = payload.count,
+          MAX_COUNT = payload.MAX_COUNT;
 
       if (question.type === 'code') {
         const status = response.data.status,
               uid = response.data.uid;
 
-        if (status === 'running') {
+        if ((status === 'running' || status == 'not started') && count < MAX_COUNT) {
           const _response = await axios({
             method: 'GET',
               url: `http://localhost:8000/api/validate/${uid}/`,
@@ -272,7 +274,10 @@ const store = new Vuex.Store({
               commit('UPDATE_RESPONSE_RESULT', result)
               commit('UPDATE_LOADING', false)
             } else {
-              dispatch('check_status', response)
+              count++;
+              setTimeout(() => {
+                dispatch('check_status', {response, count, MAX_COUNT})
+              }, 2000)
             }
           }
         }
@@ -295,8 +300,14 @@ const store = new Vuex.Store({
           answer: answer
         },
       });
+      let count = 0,
+          MAX_COUNT = 14
+      dispatch('check_status', {response, count, MAX_COUNT})
+    },
 
-      dispatch('check_status', response)
+    async quit({commit}) {
+      // console.log('quit called')
+      return
     }
   },
 
@@ -337,8 +348,11 @@ new Vue({
             <img src="@/../static/images/yaksh_banner.png" alt="YAKSH"/>
           </a>
         </div>
-        <Timer />
-        <AppStatus />
+        <div class="d-flex flex-row-reverse">
+          <AppStatus />
+          <Quit />
+          <Timer />
+        </div>
       </div>
     </nav>
     <router-view/>
