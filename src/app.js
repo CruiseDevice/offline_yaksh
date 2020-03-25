@@ -185,7 +185,6 @@ const store = new Vuex.Store({
     },
 
     showModule({commit}, module) {
-      this.state.quiz = undefined
       this.state.unitIndex = 0
       commit('UPDATE_MODULE', module)
       commit('UPDATE_UNIT_ID', undefined)
@@ -249,40 +248,66 @@ const store = new Vuex.Store({
       commit('UPDATE_MODULE', module[0])
     },
 
-    async submitAnswer (state) {
-      const answerPaperId = state.state.questions.id,
-            questionId = state.state.question.id,
-            answer = state.state.answer
-      state.commit('UPDATE_LOADING', true)
-      axios({
+    async check_status({commit, dispatch}, payload) {
+      const question = this.getters.question,
+            TOKEN = this.getters.gettoken,
+            response = payload.response;
+      let count = payload.count,
+          MAX_COUNT = payload.MAX_COUNT;
+
+      if (question.type === 'code') {
+        const status = response.data.status,
+              uid = response.data.uid;
+
+        if ((status === 'running' || status == 'not started') && count < MAX_COUNT) {
+          const _response = await axios({
+            method: 'GET',
+              url: `http://localhost:8000/api/validate/${uid}/`,
+              headers: {
+                Authorization: 'Token ' + TOKEN
+              }
+          });
+
+          if (_response) {
+            const result = JSON.parse(_response.data.result)
+            if (result) {
+              commit('UPDATE_RESPONSE_RESULT', result)
+              commit('UPDATE_LOADING', false)
+            } else {
+              count++;
+              setTimeout(() => {
+                dispatch('check_status', {response, count, MAX_COUNT})
+              }, 2000)
+            }
+          }
+        }
+      }
+    },
+
+    async submitAnswer ({commit, dispatch}) {
+      const answerPaperId = this.getters.getQuestions.id,
+            questionId = this.getters.question.id,
+            answer = this.getters.answer,
+            TOKEN = this.getters.gettoken;
+      commit('UPDATE_LOADING', true)
+      const response = await axios({
         method: 'POST',
         url:`http://localhost:8000/api/validate/${answerPaperId}/${questionId}/`,
         headers: {
-          Authorization: 'Token ' + state.state.TOKEN
+          Authorization: 'Token ' + TOKEN
         },
         data: {
           answer: answer
         },
-        timeout: 2500
-      })
-      .then((response) => {
-        if(this.state.question.type === 'code') {
-          if(response.data.status === 'running') {
-            axios({
-              method: 'GET',
-              url: `http://localhost:8000/api/validate/${response.data.uid}/`,
-              headers: {
-                Authorization: 'Token ' + state.state.TOKEN
-              }
-            })
-            .then((response) => {
-              const result = JSON.parse(response.data.result)
-              state.commit('UPDATE_RESPONSE_RESULT', result)
-            })
-          }
-        }
-        state.commit('UPDATE_LOADING', false)
-      })
+      });
+      let count = 0,
+          MAX_COUNT = 14
+      dispatch('check_status', {response, count, MAX_COUNT})
+    },
+
+    async quit({commit}) {
+      // console.log('quit called')
+      return
     }
   },
 
@@ -323,8 +348,11 @@ new Vue({
             <img src="@/../static/images/yaksh_banner.png" alt="YAKSH"/>
           </a>
         </div>
-        <Timer />
-        <AppStatus />
+        <div class="d-flex flex-row-reverse">
+          <AppStatus />
+          <Quit />
+          <Timer />
+        </div>
       </div>
     </nav>
     <router-view/>
