@@ -45,7 +45,7 @@ const store = new Vuex.Store({
     question: undefined,
     questionNumber: undefined,
     time_left: undefined,
-    quiz: JSON.parse(localStorage.getItem('quiz')) || undefined,
+    quiz:  JSON.parse(sessionStorage.getItem('quiz')) || undefined,
     TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
   },
 
@@ -181,7 +181,6 @@ const store = new Vuex.Store({
       this.state.answer = []
       commit('UPDATE_QUESTION', payload.question)
       commit('UPDATE_QUESTION_NUMBER', payload.index + 1)
-      localStorage.setItem('question', JSON.stringify(payload.question))
     },
 
     showModule({commit}, module) {
@@ -228,7 +227,7 @@ const store = new Vuex.Store({
     },
 
     showQuiz({commit}, quiz) {
-      localStorage.setItem('quiz', JSON.stringify(quiz))
+      sessionStorage.setItem('quiz', JSON.stringify(quiz))
       commit('UPDATE_QUIZ', quiz)
     },
 
@@ -321,6 +320,11 @@ const store = new Vuex.Store({
         .then((response) => {
           console.log(response)
           if (response.data.status === 'completed') {
+            sessionStorage.removeItem('quiz')
+            commit('UPDATE_QUIZ_TIMER', undefined)
+            commit('UPDATE_SELECTED_QUESTION', undefined)
+            commit('UPDATE_QUIZ', undefined)
+            commit('UPDATE_QUESTION', undefined)
             router.push('/')
           }
         })

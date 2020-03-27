@@ -34,7 +34,7 @@ const Timer = Vue.component('Timer', {
           this.timer = this.time_left
           setInterval(() => {
             this.timer -= 1
-            if(this.timer == 0) {
+            if(this.timer === 0) {
               this.$store.dispatch('quit')
             }
           }, 1000)
