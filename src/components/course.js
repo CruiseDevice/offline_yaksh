@@ -30,7 +30,7 @@ var Course = Vue.component('Course', {
   `,
   computed: {
       ...Vuex.mapGetters([
-        'course_data'
+        'course_data',
       ])
   }
 })

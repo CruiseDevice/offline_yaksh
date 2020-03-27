@@ -18,7 +18,7 @@ const routes = [
     path: '/:course_id/:unit_id/:quiz_id',
     component: QuizInstructions,
     name: 'QuizInstructions'
-  }
+  },
 ]
 
 const router = new VueRouter({routes})
@@ -281,6 +281,8 @@ const store = new Vuex.Store({
             }
           }
         }
+      } else {
+        commit('UPDATE_LOADING', false)
       }
     },
 
@@ -301,13 +303,27 @@ const store = new Vuex.Store({
         },
       });
       let count = 0,
-          MAX_COUNT = 14
-      dispatch('check_status', {response, count, MAX_COUNT})
+          MAX_COUNT = 14;
+      console.log(response);
+      dispatch('check_status', {response, count, MAX_COUNT});
     },
 
-    async quit({commit}) {
-      // console.log('quit called')
-      return
+    quit({commit}) {
+      const answerPaperId = this.getters.getQuestions.id
+      const TOKEN = this.getters.gettoken
+      axios({
+        method: 'GET',
+        url: `http://localhost:8000/api/quit/${answerPaperId}/`,
+        headers: {
+          Authorization: 'Token ' + TOKEN
+        }
+      })
+        .then((response) => {
+          console.log(response)
+          if (response.data.status === 'completed') {
+            router.push('/')
+          }
+        })
     }
   },
 
