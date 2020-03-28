@@ -20,7 +20,8 @@ var Course = Vue.component('Course', {
             </div>
           </div>
           <div class="collapse" :id="'collapseExample-' + index">
-            <div class="card-body" v-html="module.description">
+            <div class="card-body">
+              <span v-html="module.description"></span>
             </div>
           </div>
         </div>
