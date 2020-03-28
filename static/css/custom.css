@@ -45,7 +45,7 @@ a, a:hover, a:focus {
   background: #7386D5;
   color: #fff;
   transition: all 0.3s;
-  max-height: calc(400vh - 9rem);
+  max-height: calc(150vh - 9rem);
   overflow-y: auto;
 }
 
