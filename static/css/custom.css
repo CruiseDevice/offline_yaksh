@@ -190,3 +190,9 @@ a[data-toggle="collapse"] {
   background-color: white;
 }
 
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+  width: 35rem;
+  font-size: 15px;
+}

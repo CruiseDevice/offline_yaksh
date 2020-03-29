@@ -30,7 +30,8 @@ const Content = Vue.component('Content', {
                 </div>
               </div>
               <div v-if="question.type=='code'" class="form-group">
-                <textarea id="codemirror1" :value="codeAns" @input="updateCodeAns" rows="10" cols="50" :key="question.id"></textarea>
+                <!-- <textarea id="codemirror1" :value="codeAns" @input="updateCodeAns" rows="10" cols="50" :key="question.id"></textarea> -->
+                <codemirror ref="cm" :value="codeAns" :options="cmOption" @input="updateCodeAns" :key="question.id"/>
               </div>
               <button class="btn btn-success">Submit</button>
             </form>
@@ -87,7 +88,7 @@ const Content = Vue.component('Content', {
   data () {
     return {
       courseId: undefined,
-      codeAns: ''
+      codeAns: 'def fun(): \n     return True',
     }
   },
 
@@ -103,8 +104,9 @@ const Content = Vue.component('Content', {
       'module',
       'unit',
       'unitIndex',
-      'result'
-    ])
+      'result',
+      'cmOption'
+    ]),
   },
 
   methods: {
@@ -122,9 +124,9 @@ const Content = Vue.component('Content', {
       this.$store.dispatch('updateCheckedAnswers', e.target);
     },
 
-    updateCodeAns (e) {
-      const answer = e.target.value;
-      this.$store.commit('SET_ANSWER', answer)
+    updateCodeAns (value) {
+      console.log(value)
+      this.$store.commit('SET_ANSWER', value)
     },
 
     nextModule (currModIndex, moduleKeys, modules) {

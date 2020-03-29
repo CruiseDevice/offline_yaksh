@@ -47,6 +47,13 @@ const store = new Vuex.Store({
     time_left: undefined,
     quiz:  JSON.parse(sessionStorage.getItem('quiz')) || undefined,
     TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
+    cmOption: {
+      tabSize: 4,
+      styleActiveLine: true,
+      lineNumbers: true,
+      mode: '',
+      theme: "monokai"
+     }
   },
 
   mutations: {
@@ -144,6 +151,22 @@ const store = new Vuex.Store({
 
     UPDATE_ISOFFLINE(state, payload) {
       state.isOffline = payload
+    },
+
+    UPDATE_CM_MODE (state, payload) {
+      if(payload.language === 'python') {
+        state.cmOption.mode = 'text/x-python'
+      } else if (payload.language === 'c') {
+        state.cmOption.mode = 'text/x-csrc'
+      } else if (payload.language === 'cpp') {
+        state.cmOption.mode = 'text/x-c++src'
+      } else if (payload.language === 'java') {
+        state.cmOption.mode = 'text/x-java'
+      } else if (payload.language === 'bash') {
+        state.cmOption.mode = 'text/x-sh'
+      } else if (payload.language === 'scilab') {
+        state.cmOption.mode = 'text/x-csrc'
+      }
     }
   },
 
@@ -176,11 +199,11 @@ const store = new Vuex.Store({
     },
 
     showQuestion({commit}, payload) {
-      console.log(payload)
       this.state.result = []
       this.state.answer = []
       commit('UPDATE_QUESTION', payload.question)
       commit('UPDATE_QUESTION_NUMBER', payload.index + 1)
+      commit('UPDATE_CM_MODE', payload.question)
     },
 
     showModule({commit}, module) {
@@ -325,6 +348,7 @@ const store = new Vuex.Store({
             commit('UPDATE_SELECTED_QUESTION', undefined)
             commit('UPDATE_QUIZ', undefined)
             commit('UPDATE_QUESTION', undefined)
+            commit('UPDATE_RESPONSE_RESULT', undefined)
             router.push('/')
           }
         })
@@ -351,6 +375,7 @@ const store = new Vuex.Store({
     time_left: state => state.time_left,
     unitIndex: state => state.unitIndex,
     moduleIndex: state => state.moduleIndex,
+    cmOption: state => state.cmOption
   }
 })
 
