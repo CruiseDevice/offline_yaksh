@@ -18,7 +18,7 @@ const routes = [
     path: '/:course_id/:unit_id/:quiz_id',
     component: QuizInstructions,
     name: 'QuizInstructions'
-  }
+  },
 ]
 
 const router = new VueRouter({routes})
@@ -45,8 +45,15 @@ const store = new Vuex.Store({
     question: undefined,
     questionNumber: undefined,
     time_left: undefined,
-    quiz: JSON.parse(localStorage.getItem('quiz')) || undefined,
+    quiz:  JSON.parse(sessionStorage.getItem('quiz')) || undefined,
     TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
+    cmOption: {
+      tabSize: 4,
+      styleActiveLine: true,
+      lineNumbers: true,
+      mode: '',
+      theme: "monokai"
+     }
   },
 
   mutations: {
@@ -144,6 +151,22 @@ const store = new Vuex.Store({
 
     UPDATE_ISOFFLINE(state, payload) {
       state.isOffline = payload
+    },
+
+    UPDATE_CM_MODE (state, payload) {
+      if(payload.language === 'python') {
+        state.cmOption.mode = 'text/x-python'
+      } else if (payload.language === 'c') {
+        state.cmOption.mode = 'text/x-csrc'
+      } else if (payload.language === 'cpp') {
+        state.cmOption.mode = 'text/x-c++src'
+      } else if (payload.language === 'java') {
+        state.cmOption.mode = 'text/x-java'
+      } else if (payload.language === 'bash') {
+        state.cmOption.mode = 'text/x-sh'
+      } else if (payload.language === 'scilab') {
+        state.cmOption.mode = 'text/x-csrc'
+      }
     }
   },
 
@@ -176,12 +199,11 @@ const store = new Vuex.Store({
     },
 
     showQuestion({commit}, payload) {
-      console.log(payload)
       this.state.result = []
       this.state.answer = []
       commit('UPDATE_QUESTION', payload.question)
       commit('UPDATE_QUESTION_NUMBER', payload.index + 1)
-      localStorage.setItem('question', JSON.stringify(payload.question))
+      commit('UPDATE_CM_MODE', payload.question)
     },
 
     showModule({commit}, module) {
@@ -228,7 +250,7 @@ const store = new Vuex.Store({
     },
 
     showQuiz({commit}, quiz) {
-      localStorage.setItem('quiz', JSON.stringify(quiz))
+      sessionStorage.setItem('quiz', JSON.stringify(quiz))
       commit('UPDATE_QUIZ', quiz)
     },
 
@@ -281,6 +303,8 @@ const store = new Vuex.Store({
             }
           }
         }
+      } else {
+        commit('UPDATE_LOADING', false)
       }
     },
 
@@ -301,13 +325,33 @@ const store = new Vuex.Store({
         },
       });
       let count = 0,
-          MAX_COUNT = 14
-      dispatch('check_status', {response, count, MAX_COUNT})
+          MAX_COUNT = 14;
+      console.log(response);
+      dispatch('check_status', {response, count, MAX_COUNT});
     },
 
-    async quit({commit}) {
-      // console.log('quit called')
-      return
+    quit({commit}) {
+      const answerPaperId = this.getters.getQuestions.id
+      const TOKEN = this.getters.gettoken
+      axios({
+        method: 'GET',
+        url: `http://localhost:8000/api/quit/${answerPaperId}/`,
+        headers: {
+          Authorization: 'Token ' + TOKEN
+        }
+      })
+        .then((response) => {
+          console.log(response)
+          if (response.data.status === 'completed') {
+            sessionStorage.removeItem('quiz')
+            commit('UPDATE_QUIZ_TIMER', undefined)
+            commit('UPDATE_SELECTED_QUESTION', undefined)
+            commit('UPDATE_QUIZ', undefined)
+            commit('UPDATE_QUESTION', undefined)
+            commit('UPDATE_RESPONSE_RESULT', undefined)
+            router.push('/')
+          }
+        })
     }
   },
 
@@ -331,6 +375,7 @@ const store = new Vuex.Store({
     time_left: state => state.time_left,
     unitIndex: state => state.unitIndex,
     moduleIndex: state => state.moduleIndex,
+    cmOption: state => state.cmOption
   }
 })
 
