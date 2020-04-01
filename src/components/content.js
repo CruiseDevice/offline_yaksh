@@ -88,7 +88,7 @@ const Content = Vue.component('Content', {
   data () {
     return {
       courseId: undefined,
-      codeAns: 'def fun(): \n     return True',
+      codeAns: '',
     }
   },
 
