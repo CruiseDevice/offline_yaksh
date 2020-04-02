@@ -3,7 +3,7 @@ const Content = Vue.component('Content', {
     <div id="content">
       <ToggleButton /> <!--ToggleButton component common for Quiz and Module-->
       <br />
-      <Login /> <!--ToggleButton component common for Quiz and Module-->
+      <Login /> <!--Login component common for Quiz and Module-->
 
       <!--Quiz Content Component-->
       <div v-if="question">
