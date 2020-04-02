@@ -401,6 +401,7 @@ new Vue({
       </div>
     </nav>
     <router-view/>
+    <Footer />
   </div>
   `,
 })
