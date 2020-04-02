@@ -33,7 +33,9 @@ const Content = Vue.component('Content', {
                 <!-- <textarea id="codemirror1" :value="codeAns" @input="updateCodeAns" rows="10" cols="50" :key="question.id"></textarea> -->
                 <codemirror ref="cm" :value="codeAns" :options="cmOption" @input="updateCodeAns" :key="question.id"/>
               </div>
-              <button class="btn btn-success">Submit</button>
+              <div class="tooltip-wrapper" data-title="You need to be Online to Submit.">
+                <button class="btn btn-success" :disabled="!isOnline">Submit</button>
+              </div>
             </form>
           </div>
         </div>
@@ -105,7 +107,8 @@ const Content = Vue.component('Content', {
       'unit',
       'unitIndex',
       'result',
-      'cmOption'
+      'cmOption',
+      'isOnline'
     ]),
   },
 
