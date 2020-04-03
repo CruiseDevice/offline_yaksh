@@ -19,6 +19,12 @@ const Content = Vue.component('Content', {
         <div class="card">
           <div class="card-body">
             <form @submit.prevent="submitAnswer">
+              <div v-if="question.type=='integer' || question.type=='float'">
+                <input @input="updateIntFloatAns" :key="question.id"/>
+              </div>
+              <div v-if="question.type == 'string'">
+                <textarea :value="ans" @input="updateStringAns" rows="2" cols="50" :key="question.id"></textarea>
+              </div>
               <div v-if="question.type=='mcq'">
                 <div v-for="testcase in question.test_cases" :key="testcase.id">
                   <input type="radio" name="testcase.id" @change="updateMcqAns(testcase.id)" /> <span v-html="testcase.options"></span>
@@ -30,9 +36,9 @@ const Content = Vue.component('Content', {
                 </div>
               </div>
               <div v-if="question.type=='code'" class="form-group">
-                <!-- <textarea id="codemirror1" :value="codeAns" @input="updateCodeAns" rows="10" cols="50" :key="question.id"></textarea> -->
                 <codemirror ref="cm" :value="codeAns" :options="cmOption" @input="updateCodeAns" :key="question.id"/>
               </div>
+              <br />
               <div class="tooltip-wrapper" data-title="You need to be Online to Submit.">
                 <button class="btn btn-success" :disabled="!isOnline">Submit</button>
               </div>
@@ -91,6 +97,7 @@ const Content = Vue.component('Content', {
     return {
       courseId: undefined,
       codeAns: '',
+      ans: ''
     }
   },
 
@@ -129,6 +136,14 @@ const Content = Vue.component('Content', {
 
     updateCodeAns (value) {
       console.log(value)
+      this.$store.commit('SET_ANSWER', value)
+    },
+
+    updateIntFloatAns (value) {
+      this.$store.commit('SET_ANSWER', value.data)
+    },
+
+    updateStringAns (value) {
       this.$store.commit('SET_ANSWER', value)
     },
 
