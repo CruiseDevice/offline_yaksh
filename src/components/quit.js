@@ -10,8 +10,10 @@ const Quit = Vue.component('Quit', {
       ]),
   },
   methods: {
-    ...Vuex.mapActions([
-      'quit'
-    ])
+    quit () {
+      if (confirm("Do you really want to quit the quiz?")) {
+        this.$store.dispatch('quit');
+      }
+    }
   }
 })

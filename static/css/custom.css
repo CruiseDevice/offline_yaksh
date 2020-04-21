@@ -196,3 +196,13 @@ a[data-toggle="collapse"] {
   width: 35rem;
   font-size: 15px;
 }
+
+.footer {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  width: 100%;
+  background-color: #61615F;
+  color: white;
+  text-align: center;
+}
