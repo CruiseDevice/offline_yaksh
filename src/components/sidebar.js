@@ -29,7 +29,8 @@ const Sidebar = Vue.component('Sidebar', {
       'active',
       'loading',
       'quiz',
-      'time_left'
+      'time_left',
+      'url',
     ])
   },
   created () {
@@ -44,7 +45,7 @@ const Sidebar = Vue.component('Sidebar', {
       this.$store.commit('UPDATE_LOADING', true)
       axios({
         method: 'get',
-        url: `http://localhost:8000/api/start_quiz/${course_id}/${quiz_id}`,
+        url: `${this.url}/api/start_quiz/${course_id}/${quiz_id}`,
         headers: {
           Authorization: 'Token ' + this.gettoken,
           'Content-Type': 'application/json'

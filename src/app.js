@@ -26,34 +26,35 @@ const router = new VueRouter({routes})
 // Vuex Store
 const store = new Vuex.Store({
   state: {
-    file: '',
     active: '',
     answer: [],
-    result: [],
-    unitIndex: 0,
-    response: [],
-    isOnline: false,
-    isOffline: false,
-    questions: [],
-    loading: false,
-    moduleIndex: 0,
-    unit: undefined,
-    module: undefined,
-    unitId: undefined,
-    moduleId: undefined,
     courseData: data[0],
-    question: undefined,
-    questionNumber: undefined,
-    time_left: undefined,
-    quiz:  JSON.parse(sessionStorage.getItem('quiz')) || undefined,
-    TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
     cmOption: {
       tabSize: 4,
       styleActiveLine: true,
       lineNumbers: true,
       mode: '',
       theme: "monokai"
-     }
+    },
+    file: '',
+    isOnline: false,
+    isOffline: false,
+    loading: false,
+    moduleIndex: 0,
+    module: undefined,
+    moduleId: undefined,
+    result: [],
+    questions: [],
+    question: undefined,
+    questionNumber: undefined,
+    quiz:  JSON.parse(sessionStorage.getItem('quiz')) || undefined,
+    response: [],
+    time_left: undefined,
+    unitIndex: 0,
+    unit: undefined,
+    unitId: undefined,
+    url: 'https://yaksh.fossee.in',
+    TOKEN: JSON.parse(localStorage.getItem('TOKEN')) || undefined,
   },
 
   mutations: {
@@ -177,10 +178,11 @@ const store = new Vuex.Store({
 
     login (state, payload) {
       const username = payload["username"],
-            password = payload["password"]
+            password = payload["password"],
+            url = this.getters.url;
       axios({
         method: 'POST',
-        url: 'http://localhost:8000/api/login/',
+        url: `${url}/api/login/`,
         data: {
           username: username,
           password: password
@@ -273,6 +275,7 @@ const store = new Vuex.Store({
     async check_status({commit, dispatch}, payload) {
       const question = this.getters.question,
             TOKEN = this.getters.gettoken,
+            url = this.getters.url,
             response = payload.response;
       let count = payload.count,
           MAX_COUNT = payload.MAX_COUNT;
@@ -284,7 +287,7 @@ const store = new Vuex.Store({
         if ((status === 'running' || status == 'not started') && count < MAX_COUNT) {
           const _response = await axios({
             method: 'GET',
-              url: `http://localhost:8000/api/validate/${uid}/`,
+              url: `${url}/api/validate/${uid}/`,
               headers: {
                 Authorization: 'Token ' + TOKEN
               }
@@ -312,11 +315,12 @@ const store = new Vuex.Store({
       const answerPaperId = this.getters.getQuestions.id,
             questionId = this.getters.question.id,
             answer = this.getters.answer,
-            TOKEN = this.getters.gettoken;
+            TOKEN = this.getters.gettoken,
+            url = this.getters.url;
       commit('UPDATE_LOADING', true)
       const response = await axios({
         method: 'POST',
-        url:`http://localhost:8000/api/validate/${answerPaperId}/${questionId}/`,
+        url:`${url}/api/validate/${answerPaperId}/${questionId}/`,
         headers: {
           Authorization: 'Token ' + TOKEN
         },
@@ -331,11 +335,12 @@ const store = new Vuex.Store({
     },
 
     quit({commit}) {
-      const answerPaperId = this.getters.getQuestions.id
-      const TOKEN = this.getters.gettoken
+      const answerPaperId = this.getters.getQuestions.id,
+            TOKEN = this.getters.gettoken,
+            url = this.getters.url;
       axios({
         method: 'GET',
-        url: `http://localhost:8000/api/quit/${answerPaperId}/`,
+        url: `${url}/api/quit/${answerPaperId}/`,
         headers: {
           Authorization: 'Token ' + TOKEN
         }
@@ -356,26 +361,27 @@ const store = new Vuex.Store({
   },
 
   getters: {
+    active: state => state.active,
+    answer: state => state.answer,
+    cmOption: state => state.cmOption,
     course_data: state => state.courseData,
     getQuestions: state => state.questions,
-    question: state => state.question,
     gettoken: state => state.TOKEN,
-    answer: state => state.answer,
-    result: state => state.result,
-    module: state => state.module,
-    unit: state => state.unit,
-    quiz: state => state.quiz,
     isOffline: state => state.isOffline,
     isOnline: state => state.isOnline,
-    questionNumber: state => state.questionNumber,
-    active: state => state.active,
-    unitId: state => state.unitId,
     loading: state => state.loading,
-    moduleId: state => state.moduleId,
-    time_left: state => state.time_left,
-    unitIndex: state => state.unitIndex,
     moduleIndex: state => state.moduleIndex,
-    cmOption: state => state.cmOption
+    moduleId: state => state.moduleId,
+    module: state => state.module,
+    question: state => state.question,
+    quiz: state => state.quiz,
+    questionNumber: state => state.questionNumber,
+    result: state => state.result,
+    time_left: state => state.time_left,
+    unit: state => state.unit,
+    url: state => state.url,
+    unitId: state => state.unitId,
+    unitIndex: state => state.unitIndex,
   }
 })
 
